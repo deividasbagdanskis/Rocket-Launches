@@ -26,11 +26,11 @@ public class Customer {
         this.name = name;
     }
 
-    public String getCoutryCode() {
+    public String getCountryCode() {
         return coutryCode;
     }
 
-    public void setCoutryCode(String coutryCode) {
+    public void setCountryCode(String coutryCode) {
         this.coutryCode = coutryCode;
     }
 
