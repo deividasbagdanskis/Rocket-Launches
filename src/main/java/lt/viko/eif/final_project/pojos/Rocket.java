@@ -1,19 +1,23 @@
 package lt.viko.eif.final_project.pojos;
 
+import javax.ws.rs.core.Link;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Rocket {
     private int Id;
     private String name;
     private String manufacturer;
     private String type;
-    private String originOfCountry;
+    private String countryOfOrigin;
     private double height;
     private double diameter;
     private int mass;
     private int numberOfStages;
     private int payloadToLEO;
     private int payloadToGTO;
-    private char status;
-    private String wikiURL;
+    private List<Stage> stages = new ArrayList<>();
+    private List<Link> links = new ArrayList<>();
 
     public int getId() {
         return Id;
@@ -47,12 +51,12 @@ public class Rocket {
         this.type = type;
     }
 
-    public String getOriginOfCountry() {
-        return originOfCountry;
+    public String getCountryOfOrigin() {
+        return countryOfOrigin;
     }
 
-    public void setOriginOfCountry(String originOfCountry) {
-        this.originOfCountry = originOfCountry;
+    public void setCountryOfOrigin(String countryOfOrigin) {
+        this.countryOfOrigin = countryOfOrigin;
     }
 
     public double getHeight() {
@@ -103,19 +107,30 @@ public class Rocket {
         this.payloadToGTO = payloadToGTO;
     }
 
-    public char getStatus() {
-        return status;
+    public List<Stage> getStages() {
+        return stages;
     }
 
-    public void setStatus(char status) {
-        this.status = status;
+    public void setStages(List<Stage> stages) {
+        this.stages = stages;
     }
 
-    public String getWikiURL() {
-        return wikiURL;
+    public List<Link> getLinks() {
+        return links;
     }
 
-    public void setWikiURL(String wikiURL) {
-        this.wikiURL = wikiURL;
+    public void addLink(String url, String rel) {
+        Link link = Link.fromUri(url).rel(rel).build();
+        this.links.add(link);
+    }
+
+    public String findLink(String rel) {
+        for (Link link : this.links) {
+            if (link.getRel().equals(rel)) {
+                return link.getUri().toString();
+            }
+        }
+
+        return null;
     }
 }
