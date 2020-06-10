@@ -7,7 +7,7 @@ package lt.viko.eif.final_project.pojos;
 public class Customer {
     private int Id;
     private String name;
-    private String coutryCode;
+    private String countryCode;
     private String wikiURL;
 
     public int getId() {
@@ -26,12 +26,12 @@ public class Customer {
         this.name = name;
     }
 
-    public String getCoutryCode() {
-        return coutryCode;
+    public String getCountryCode() {
+        return countryCode;
     }
 
-    public void setCoutryCode(String coutryCode) {
-        this.coutryCode = coutryCode;
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     public String getWikiURL() {
