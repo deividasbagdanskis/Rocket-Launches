@@ -36,6 +36,7 @@ public class RocketDAOImpl implements RocketDAO {
             ResultSet result = statement.executeQuery(query);
 
             while (result.next()) {
+
                 Rocket rocket = readRocket(result);
 
                 rockets.add(rocket);
@@ -216,7 +217,6 @@ public class RocketDAOImpl implements RocketDAO {
                 Stage stage = new Stage();
 
                 stage.setId(resultStage.getInt(1));
-                stage.setRocketId(resultStage.getInt(2));
                 stage.setType(resultStage.getString(3));
                 stage.setNumberOfEngines(resultStage.getInt(4));
                 stage.setEngine(resultStage.getString(5));
