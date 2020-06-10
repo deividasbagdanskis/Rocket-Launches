@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 09, 2020 at 08:21 AM
+-- Generation Time: Jun 10, 2020 at 08:21 AM
 -- Server version: 5.7.26
 -- PHP Version: 7.4.2
 
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `launchpad` (
   `name` varchar(255) DEFAULT NULL,
   `locationName` varchar(255) DEFAULT NULL,
   `latitude` decimal(11,8) DEFAULT NULL,
-  `longtitude` decimal(11,8) DEFAULT NULL,
+  `longitude` decimal(11,8) DEFAULT NULL,
   `wikiURL` varchar(255) DEFAULT NULL,
   `mapsURL` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -129,7 +129,6 @@ CREATE TABLE IF NOT EXISTS `rocket` (
   `numberOfStages` tinyint(3) UNSIGNED DEFAULT NULL,
   `payloadToLEO` int(10) UNSIGNED DEFAULT NULL,
   `payloadToGTO` int(10) UNSIGNED DEFAULT NULL,
-  `status` char(1) DEFAULT NULL,
   `wikiURL` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
@@ -138,10 +137,10 @@ CREATE TABLE IF NOT EXISTS `rocket` (
 -- Dumping data for table `rocket`
 --
 
-INSERT INTO `rocket` (`Id`, `name`, `manufacturer`, `type`, `countryOfOrigin`, `height`, `diameter`, `mass`, `numberOfStages`, `payloadToLEO`, `payloadToGTO`, `status`, `wikiURL`) VALUES
-(1, 'Falcon 9', 'Orbital', 'SpaceX', 'USA', 70, 3.7, 549054, 2, 22800, 8300, 'S', 'https://en.wikipedia.org/wiki/Falcon_9_Block_5'),
-(2, 'Delta IV Heavy', 'Orbital', 'United Launch Alliance', 'USA', 72, 5, 733000, 2, 28790, 14220, 'R', 'https://en.wikipedia.org/wiki/Delta_IV_Heavy'),
-(3, 'Atlas V', 'Orbital', 'United Launch Alliance', 'USA', 58.3, 3.81, 590000, 2, 20520, 8900, 'S', 'https://en.wikipedia.org/wiki/Atlas_V');
+INSERT INTO `rocket` (`Id`, `name`, `manufacturer`, `type`, `countryOfOrigin`, `height`, `diameter`, `mass`, `numberOfStages`, `payloadToLEO`, `payloadToGTO`, `wikiURL`) VALUES
+(1, 'Falcon 9', 'SpaceX', 'Orbital', 'USA', 70, 3.7, 549054, 2, 22800, 8300, 'https://en.wikipedia.org/wiki/Falcon_9_Block_5'),
+(2, 'Delta IV Heavy', 'United Launch Alliance', 'Orbital', 'USA', 72, 5, 733000, 2, 28790, 14220, 'https://en.wikipedia.org/wiki/Delta_IV_Heavy'),
+(3, 'Atlas V', 'United Launch Alliance', 'Orbital', 'USA', 58.3, 3.81, 590000, 2, 20520, 8900, 'https://en.wikipedia.org/wiki/Atlas_V');
 
 -- --------------------------------------------------------
 

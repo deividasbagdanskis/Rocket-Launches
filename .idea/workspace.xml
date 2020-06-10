@@ -25,11 +25,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2e33b6c2-597e-4a40-bf75-f1228849b24b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/test/lt/viko/eif/final_project/pojos/RocketTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/final_project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/final_project.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/pojos/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/pojos/Customer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/final_project_db.sql" beforeDir="false" afterPath="$PROJECT_DIR$/final_project_db.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/pojos/EmptyClass.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/pojos/Launch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/pojos/Launch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/pojos/LaunchPad.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/pojos/LaunchPad.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/pojos/Mission.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/pojos/Mission.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/pojos/Stage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/pojos/Stage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +55,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="JUnit5 Test Class" />
+        <option value="Interface" />
         <option value="Class" />
         <option value="JUnit5 Test Class" />
       </list>
@@ -112,7 +116,20 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.RocketTest">
+  <component name="RunManager" selected="GlassFish Server.GlassFish 5.0.1">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="lt.viko.eif.final_project.dao.Main" />
+      <module name="final_project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="lt.viko.eif.final_project.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="GlassFish 5.0.1" type="GlassfishConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="GlassFish 5.0.1" ALTERNATIVE_JRE_ENABLED="false">
       <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/final_project_war_exploded" />
       <option name="UPDATING_POLICY" value="restart-server" />
@@ -208,10 +225,16 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.Main" />
       <item itemvalue="GlassFish Server.GlassFish 5.0.1" />
       <item itemvalue="JUnit.RocketTest" />
       <item itemvalue="JUnit.CustomerTest" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -225,7 +248,8 @@
       <updated>1591623113711</updated>
       <workItem from="1591623115484" duration="9167000" />
       <workItem from="1591690167285" duration="1000000" />
-      <workItem from="1591704235821" duration="848000" />
+      <workItem from="1591709095860" duration="15027000" />
+      <workItem from="1591776218065" duration="1271000" />
     </task>
     <servers />
   </component>

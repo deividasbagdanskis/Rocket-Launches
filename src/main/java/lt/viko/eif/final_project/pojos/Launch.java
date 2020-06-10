@@ -5,8 +5,8 @@ public class Launch {
     private String name;
     private String windowStart;
     private String windowEnd;
-    private int rocketId;
-    private int launchPadId;
+    private Rocket rocket;
+    private LaunchPad launchPad;
     private String launchServiceProvider;
 
     public int getId() {
@@ -41,20 +41,20 @@ public class Launch {
         this.windowEnd = windowEnd;
     }
 
-    public int getRocketId() {
-        return rocketId;
+    public Rocket getRocket() {
+        return rocket;
     }
 
-    public void setRocketId(int rocketId) {
-        this.rocketId = rocketId;
+    public void setRocket(Rocket rocket) {
+        this.rocket = rocket;
     }
 
-    public int getLaunchPadId() {
-        return launchPadId;
+    public LaunchPad getLaunchPad() {
+        return launchPad;
     }
 
-    public void setLaunchPadId(int launchPadId) {
-        this.launchPadId = launchPadId;
+    public void setLaunchPad(LaunchPad launchPad) {
+        this.launchPad = launchPad;
     }
 
     public String getLaunchServiceProvider() {
