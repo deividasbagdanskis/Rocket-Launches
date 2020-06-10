@@ -1,10 +1,18 @@
 package lt.viko.eif.final_project.pojos;
 
+import java.util.List;
+
 public class Mission {
     private int Id;
     private String name;
-    private String countryCode;
-    private String wikiURL;
+    private String description;
+    private Launch launch;
+    private Customer customer;
+    List<Payload> payloads;
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
     public int getId() {
         return Id;
@@ -22,19 +30,36 @@ public class Mission {
         this.name = name;
     }
 
-    public String getCountryCode() {
-        return countryCode;
+
+    public String getDescription() {
+        return description;
     }
 
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getWikiURL() {
-        return wikiURL;
+    public Launch getLaunch() {
+        return launch;
     }
 
-    public void setWikiURL(String wikiURL) {
-        this.wikiURL = wikiURL;
+    public void setLaunch(Launch launch) {
+        this.launch = launch;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public List<Payload> getPayloads() {
+        return payloads;
+    }
+
+    public void setPayloads(List<Payload> payloads) {
+        this.payloads = payloads;
+    }
+
+    public void addPayload(Payload payload) {
+        payloads.add(payload);
     }
 }

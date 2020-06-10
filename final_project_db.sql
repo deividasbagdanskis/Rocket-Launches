@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 09, 2020 at 03:20 PM
+-- Generation Time: Jun 10, 2020 at 08:21 AM
 -- Server version: 5.7.26
 -- PHP Version: 7.4.2
 
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `launchpad` (
   `name` varchar(255) DEFAULT NULL,
   `locationName` varchar(255) DEFAULT NULL,
   `latitude` decimal(11,8) DEFAULT NULL,
-  `longtitude` decimal(11,8) DEFAULT NULL,
+  `longitude` decimal(11,8) DEFAULT NULL,
   `wikiURL` varchar(255) DEFAULT NULL,
   `mapsURL` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
