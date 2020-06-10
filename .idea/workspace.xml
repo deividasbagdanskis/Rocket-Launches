@@ -25,13 +25,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2e33b6c2-597e-4a40-bf75-f1228849b24b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/dao/LaunchDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/dao/LaunchDAOImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/final_project_db.sql" beforeDir="false" afterPath="$PROJECT_DIR$/final_project_db.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/pojos/EmptyClass.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/dao/RocketDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/dao/RocketDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/dao/RocketDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/dao/RocketDAOImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/pojos/Launch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/pojos/Launch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/pojos/LaunchPad.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/pojos/LaunchPad.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/pojos/Mission.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/pojos/Mission.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/pojos/Stage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lt/viko/eif/final_project/pojos/Stage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,9 +56,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JUnit5 Test Class" />
+        <option value="JUnit5 Test Class" />
         <option value="Interface" />
         <option value="Class" />
-        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -85,6 +85,7 @@
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="create.test.in.the.same.root" value="true" />
+    <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />

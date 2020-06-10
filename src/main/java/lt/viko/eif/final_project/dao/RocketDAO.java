@@ -5,12 +5,13 @@ import lt.viko.eif.final_project.pojos.Rocket;
 import java.util.List;
 
 /**
+ * The user of this interface has full control of CRUD operations with rocket table.
  * @author Deividas Bagdanskis
  */
 public interface RocketDAO {
 
     /**
-     * Gets all rockets in the repository.
+     * Gets all rockets in the database.
      * @return a list of rockets
      */
     List<Rocket> getAllRockets();
@@ -32,7 +33,7 @@ public interface RocketDAO {
     Rocket getRocketById(int id);
 
     /**
-     * Adds a rocket to the database and to the repository.
+     * Adds a rocket to the database.
      * @param rocket rocket object, which will be added
      * @return true - if rocket and stages were inserted to the database<br>
      *         false - if operation failed

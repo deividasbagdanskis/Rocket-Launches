@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * This class implements CRUD operations with rocket table in a database.
  * @author Deividas Bagdanskis
  */
 public class RocketDAOImpl implements RocketDAO {
@@ -104,7 +105,7 @@ public class RocketDAOImpl implements RocketDAO {
     }
 
     /**
-     * Adds a rocket to the database and to the repository.
+     * Adds a rocket to the database.
      * @param rocket rocket object, which will be added
      * @return true - if rocket and stages were inserted to the database<br>
      *         false - if operation failed
@@ -148,7 +149,7 @@ public class RocketDAOImpl implements RocketDAO {
     public boolean updateRocket(Rocket rocket) {
         int result = 0;
         try {
-            String query = "UPDATE rocket SET type = ?, manufacturer = ? countryOfOrigin = ?, height = ?, diameter = ?,"
+            String query = "UPDATE rocket SET type = ?, manufacturer = ?, countryOfOrigin = ?, height = ?, diameter = ?,"
                     + " mass = ?, numberOfStages = ?, payloadToLEO = ?, payloadToGTO = ?, wikiURL = ? WHERE name = ?";
 
             PreparedStatement prepStmt = connection.prepareStatement(query);
@@ -173,7 +174,7 @@ public class RocketDAOImpl implements RocketDAO {
 
     /**
      * Reads records from rocket table.
-     * @param result ResulSet of a query
+     * @param result ResultSet of a query
      * @return rocket object
      * @throws SQLException
      */
@@ -216,7 +217,6 @@ public class RocketDAOImpl implements RocketDAO {
                 Stage stage = new Stage();
 
                 stage.setId(resultStage.getInt(1));
-                stage.setRocketId(resultStage.getInt(2));
                 stage.setType(resultStage.getString(3));
                 stage.setNumberOfEngines(resultStage.getInt(4));
                 stage.setEngine(resultStage.getString(5));
