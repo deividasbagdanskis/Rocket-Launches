@@ -30,5 +30,12 @@ public interface LaunchPadDAO {
      */
     LaunchPad getLaunchPadByName(String name);
 
+    /**
+     * Adds a launch pad to the database and to the repository.
+     * @param launchPad launch pad object, which will be added
+     * @return true - if launch pad  were inserted to the database<br>
+     *         false - if operation failed
+     */
+    boolean addLaunchPad(LaunchPad launchPad);
 
 }

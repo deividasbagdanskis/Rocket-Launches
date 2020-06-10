@@ -99,6 +99,36 @@ public class LaunchPadDAOImpl implements  LaunchPadDAO {
 
         return launchPad;
     }
+
+    /**
+     * Adds a launch pad to the database and to the repository.
+     * @param launchPad launch pad object, which will be added
+     * @return true - if launch pad  were inserted to the database<br>
+     *         false - if operation failed
+     */
+    @java.lang.Override
+    public boolean addLaunchPad(LaunchPad launchPad)
+    {
+        int result = 0;
+        try {
+            String query = "INSERT IGNORE INTO launchpad (name, locationName, latidude,longitude, wikiURL, mapsURL) VALUES (?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement prepStmt = connection.prepareStatement(query);
+            prepStmt.setString(1, launchPad.getName());
+            prepStmt.setString(2, launchPad.getLocationName());
+            prepStmt.setDouble(3, launchPad.getLatitude());
+            prepStmt.setDouble(4, launchPad.getLongitude());
+            prepStmt.setString(5, launchPad.getWikiURL());
+            prepStmt.setString(6, launchPad.getMapsURL());
+            result += prepStmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return result == 1;
+    }
     /**
      * Reads records from launchpad table.
      * @param result ResulSet of a query
