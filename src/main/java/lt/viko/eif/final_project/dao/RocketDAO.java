@@ -46,4 +46,12 @@ public interface RocketDAO {
      *         false - if operation failed
      */
     boolean updateRocket(Rocket rocket);
+
+    /**
+     * Deletes a specified rocket from the database.
+     * @param id id of a rocket, which will be deleted
+     * @return true - if rocket and stages were deleted from the database<br>
+     *         false - if operation failed
+     */
+    boolean deleteRocket(int id);
 }
