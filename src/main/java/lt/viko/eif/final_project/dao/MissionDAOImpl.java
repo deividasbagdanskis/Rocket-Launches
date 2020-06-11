@@ -12,9 +12,11 @@ import java.util.List;
 public class MissionDAOImpl implements  MissionDAO {
 
     private Connection connection;
+    private LaunchDAO launchDAO = new LaunchDAOImpl();
+    private CustomerDAO customerDAO= new CustomerDAOImpl();
 
     /**
-     * Creates new RocketDAOImpl with database connection.
+     * Creates new MissionDAOImpl with database connection.
      */
     public MissionDAOImpl() {
         DbConnection dbConnection = new DbConnection();
@@ -129,44 +131,27 @@ public class MissionDAOImpl implements  MissionDAO {
         return result == 1;
     }
 
+    /**
+     * Reads records from mission table.
+     * @param result ResultSet of a query
+     * @return mission object
+     * @throws SQLException
+     */
     private Mission readMission(ResultSet result) throws SQLException {
         Mission mission = new Mission();
         mission.setId(result.getInt(1));
         mission.setName(result.getString(2));
         mission.setDescription(result.getString(3));
-       // Launch launch = LaunchDao.getLaunchById(result.getInt(4));
-        //Customer customer = customer.getId(result.getInt(5));
+        Launch launch = launchDAO.getLaunchById(result.getInt(4));
+        mission.setLaunch(launch);
+        Customer customer = customerDAO.getCustomerById(result.getInt(5));
+        mission.setCustomer(customer);
 
         return mission;
     }
 
-    private List<Payload> getPayloads(int missionId) {
-        List<Payload> payloads = new ArrayList<>();
 
-        try {
-            String queryStages = "SELECT * FROM payload WHERE mission_Id = ?";
 
-            PreparedStatement prepStmt = connection.prepareStatement(queryStages);
-            prepStmt.setInt(1, missionId);
 
-            ResultSet resultStage = prepStmt.executeQuery();
-
-            while (resultStage.next()) {
-                Payload payload = new Payload();
-
-                payload.setId(resultStage.getInt(1));
-                payload.setDescription(resultStage.getString(3));
-                payload.setWeight(resultStage.getInt(4));
-                payload.setTotalAmount(resultStage.getInt(5));
-                payload.setMissionId(resultStage.getInt(6));
-
-                payloads.add(payload);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return payloads;
-    }
 
 }

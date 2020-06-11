@@ -38,4 +38,12 @@ public interface LaunchPadDAO {
      */
     boolean addLaunchPad(LaunchPad launchPad);
 
+    /**
+     * Deletes a specified launch pad from the database.
+     * @param id id of a launch pad, which will be deleted
+     * @return true - if a launch pad was deleted from the database<br>
+     *         false - if operation failed
+     */
+    boolean deleteLaunchPad(int id);
+
 }

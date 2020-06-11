@@ -28,7 +28,7 @@ public class LaunchPadDAOImpl implements  LaunchPadDAO {
         List<LaunchPad> launchPads = new ArrayList<>();
 
         try {
-            String query = "SELECT * FROM launchpad";
+            String query = "SELECT * FROM launchPad";
             Statement statement = connection.createStatement();
 
             ResultSet result = statement.executeQuery(query);
@@ -55,7 +55,7 @@ public class LaunchPadDAOImpl implements  LaunchPadDAO {
         LaunchPad launchPad = null;
 
         try {
-            String query = "SELECT * FROM launchpad WHERE Id = ? LIMIT 1";
+            String query = "SELECT * FROM launchPad WHERE Id = ? LIMIT 1";
 
             PreparedStatement prepStmt = connection.prepareStatement(query);
             prepStmt.setInt(1, id);
@@ -83,7 +83,7 @@ public class LaunchPadDAOImpl implements  LaunchPadDAO {
         LaunchPad launchPad = null;
 
         try {
-            String query = "SELECT * FROM launchpad WHERE name = ? LIMIT 1";
+            String query = "SELECT * FROM launchPad WHERE name = ? LIMIT 1";
 
             PreparedStatement prepStmt = connection.prepareStatement(query);
             prepStmt.setString(1, name);
@@ -111,7 +111,7 @@ public class LaunchPadDAOImpl implements  LaunchPadDAO {
     {
         int result = 0;
         try {
-            String query = "INSERT IGNORE INTO launchpad (name, locationName, latidude,longitude, wikiURL, mapsURL) VALUES (?, ?, ?, ?, ?, ?)";
+            String query = "INSERT IGNORE INTO launchPad (name, locationName, latidude,longitude, wikiURL, mapsURL) VALUES (?, ?, ?, ?, ?, ?)";
 
             PreparedStatement prepStmt = connection.prepareStatement(query);
             prepStmt.setString(1, launchPad.getName());
@@ -129,6 +129,32 @@ public class LaunchPadDAOImpl implements  LaunchPadDAO {
 
         return result == 1;
     }
+
+    @Override
+    public boolean deleteLaunchPad(int id) {
+        int result = 0;
+
+        try {
+            String updateLaunchQuery = "UPDATE launch SET launchPad_id = ? WHERE launchPad = ?";
+
+            PreparedStatement prepStmt = connection.prepareStatement(updateLaunchQuery);
+            prepStmt.setInt(1, 0);
+            prepStmt.setInt(2, id);
+            result += prepStmt.executeUpdate();
+
+            String deleteLaunchPadQuery = "DELETE FROM launchPad WHERE id = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteLaunchPadQuery);
+            preparedStatement.setInt(1, id);
+            result += preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return result > 0;
+    }
+
     /**
      * Reads records from launchpad table.
      * @param result ResulSet of a query
@@ -147,4 +173,6 @@ public class LaunchPadDAOImpl implements  LaunchPadDAO {
 
         return launchPad;
     }
+
+
 }
