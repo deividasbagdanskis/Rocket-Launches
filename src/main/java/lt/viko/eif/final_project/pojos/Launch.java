@@ -1,10 +1,12 @@
 package lt.viko.eif.final_project.pojos;
 
+import java.time.Instant;
+
 public class Launch {
     private int Id;
     private String name;
-    private String windowStart;
-    private String windowEnd;
+    private Instant windowStart;
+    private Instant windowEnd;
     private Rocket rocket;
     private LaunchPad launchPad;
     private String launchServiceProvider;
@@ -25,19 +27,19 @@ public class Launch {
         this.name = name;
     }
 
-    public String getWindowStart() {
+    public Instant getWindowStart() {
         return windowStart;
     }
 
-    public void setWindowStart(String windowStart) {
+    public void setWindowStart(Instant windowStart) {
         this.windowStart = windowStart;
     }
 
-    public String getWindowEnd() {
+    public Instant getWindowEnd() {
         return windowEnd;
     }
 
-    public void setWindowEnd(String windowEnd) {
+    public void setWindowEnd(Instant windowEnd) {
         this.windowEnd = windowEnd;
     }
 

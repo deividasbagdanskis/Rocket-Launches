@@ -8,7 +8,7 @@ public class Mission {
     private String description;
     private Launch launch;
     private Customer customer;
-    List<Payload> payloads;
+    private List<Payload> payloads;
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
