@@ -22,7 +22,7 @@ public interface LaunchDAO {
      * @return rocket object - if a launch was found<br>
      *         null - if a launch was not found
      */
-    Launch getLaunchByName(String name);
+    List<Launch> getLaunchesByName(String name);
 
     /**
      * Gets a launch with particular id from the database.

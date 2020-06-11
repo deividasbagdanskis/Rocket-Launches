@@ -59,11 +59,11 @@ public class LaunchDAOImpl implements LaunchDAO {
      *         null - if a launch was not found
      */
     @Override
-    public Launch getLaunchByName(String name) {
-        Launch launch = null;
+    public List<Launch> getLaunchesByName(String name) {
+        List<Launch> launches = new ArrayList<>();
 
         try {
-            String query = "SELECT * FROM launch WHERE name = ? LIMIT 1";
+            String query = "SELECT * FROM launch WHERE name LIKE CONCAT('%', ?, '%')";
 
             PreparedStatement prepStmt = connection.prepareStatement(query);
             prepStmt.setString(1, name);
@@ -71,12 +71,14 @@ public class LaunchDAOImpl implements LaunchDAO {
             ResultSet result = prepStmt.executeQuery();
 
             while (result.next()) {
-                launch = readLaunch(result);
+                Launch launch = readLaunch(result);
+
+                launches.add(launch);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return launch;
+        return launches;
     }
 
     /**

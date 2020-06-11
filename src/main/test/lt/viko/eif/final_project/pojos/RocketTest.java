@@ -70,14 +70,14 @@ class RocketTest {
 
     @Test
     void getOriginOfCountry() {
-        rocket.setOriginOfCountry("LT");
-        assertEquals("LT", rocket.getOriginOfCountry());
+        rocket.setCountryOfOrigin("LT");
+        assertEquals("LT", rocket.getCountryOfOrigin());
     }
 
     @Test
     void setOriginOfCountry() {
-        rocket.setOriginOfCountry("LT");
-        assertEquals("LT", rocket.getOriginOfCountry());
+        rocket.setCountryOfOrigin("LT");
+        assertEquals("LT", rocket.getCountryOfOrigin());
     }
 
     @Test
@@ -150,29 +150,5 @@ class RocketTest {
     void setPayloadToGTO() {
         rocket.setPayloadToGTO(1);
         assertEquals(1, rocket.getPayloadToGTO());
-    }
-
-    @Test
-    void getStatus() {
-        rocket.setStatus('T');
-        assertEquals('T', rocket.getStatus());
-    }
-
-    @Test
-    void setStatus() {
-        rocket.setStatus('T');
-        assertEquals('T', rocket.getStatus());
-    }
-
-    @Test
-    void getWikiURL() {
-        rocket.setWikiURL("https://example.com");
-        assertEquals("https://example.com", rocket.getWikiURL());
-    }
-
-    @Test
-    void setWikiURL() {
-        rocket.setWikiURL("https://example.com");
-        assertEquals("https://example.com", rocket.getWikiURL());
     }
 }

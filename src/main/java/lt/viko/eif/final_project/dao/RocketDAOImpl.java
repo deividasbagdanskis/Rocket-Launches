@@ -174,6 +174,36 @@ public class RocketDAOImpl implements RocketDAO {
     }
 
     /**
+     * Deletes a specified rocket from the database.
+     * @param id id of a rocket, which will be deleted
+     * @return true - if rocket and stages were deleted from the database<br>
+     *         false - if operation failed
+     */
+    @Override
+    public boolean deleteRocket(int id) {
+        int result = 0;
+
+        try {
+            String deleteStagesQuery = "DELETE FROM stage WHERE rocket_Id = ?";
+
+            PreparedStatement prepStmt = connection.prepareStatement(deleteStagesQuery);
+            prepStmt.setInt(1, id);
+            result += prepStmt.executeUpdate();
+
+            String deleteRocketQuery = "DELETE FROM rocket WHERE Id = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteRocketQuery);
+            preparedStatement.setInt(1, id);
+            result += preparedStatement.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return result > 0;
+    }
+
+    /**
      * Reads records from rocket table.
      * @param result ResultSet of a query
      * @return rocket object
