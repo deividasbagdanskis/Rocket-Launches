@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * This class implements methods to get data of rockets, launches and missions from Launch Library API.
  * @author Deividas Bagdanskis
  */
 public class LaunchLibraryClientImpl implements LaunchLibraryClient {
@@ -22,11 +23,20 @@ public class LaunchLibraryClientImpl implements LaunchLibraryClient {
     private WebTarget webTarget;
     private DateTimeFormatter formatter;
 
+    /**
+     * Creates Launch Library API client and DateTimeFormatter.
+     */
     public LaunchLibraryClientImpl() {
         client = ClientBuilder.newClient();
         webTarget = client.target("https://launchlibrary.net/1.4");
         formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
     }
+
+    /**
+     * Gets a list of rockets with a given name from Launch Library API.
+     * @param name name of searchable rockets
+     * @return a list of rockets
+     */
     @Override
     public List<Rocket> getRocketsByName(String name) {
         List<Rocket> rockets = new ArrayList<>();
@@ -49,6 +59,11 @@ public class LaunchLibraryClientImpl implements LaunchLibraryClient {
         return rockets;
     }
 
+    /**
+     * Gets a list of launches with a given name from Launch Library API.
+     * @param name name of searchable launches
+     * @return a list of launches
+     */
     @Override
     public List<Launch> getLaunchesByName(String name) {
         List<Launch> launches = new ArrayList<>();
@@ -57,6 +72,12 @@ public class LaunchLibraryClientImpl implements LaunchLibraryClient {
         return readLaunchesFromJson(launches, invBuilder);
     }
 
+    /**
+     * Gets a list of launches between given start date and end date from Launch Library API.
+     * @param startDate start date
+     * @param endDate end date
+     * @return a list of launches
+     */
     @Override
     public List<Launch> getLaunchesByDates(String startDate, String endDate) {
         List<Launch> launches = new ArrayList<>();
@@ -66,6 +87,11 @@ public class LaunchLibraryClientImpl implements LaunchLibraryClient {
         return readLaunchesFromJson(launches, invBuilder);
     }
 
+    /**
+     * Gets a list of missions with a given name from Launch Library API.
+     * @param name name of missions launches
+     * @return a list of missions
+     */
     @Override
     public List<Mission> getMissionsByName(String name) {
         List<Mission> missions = new ArrayList<>();
@@ -109,6 +135,12 @@ public class LaunchLibraryClientImpl implements LaunchLibraryClient {
         return missions;
     }
 
+    /**
+     * Reads data of launches from JSON document returned by Launch Library API.
+     * @param launches empty launch list
+     * @param invBuilder Invocation.Builder of Launch Library request
+     * @return a list of launches
+     */
     private List<Launch> readLaunchesFromJson(List<Launch> launches, Invocation.Builder invBuilder) {
         Response response = invBuilder.get();
 
@@ -166,6 +198,11 @@ public class LaunchLibraryClientImpl implements LaunchLibraryClient {
         return launches;
     }
 
+    /**
+     * Reads data of payloads from JSON document returned by Launch Library API.
+     * @param payloadsJSON JSONArray of payloads in JSON format
+     * @return a list of payloads
+     */
     private List<Payload> readPayloadsFromJSON(JSONArray payloadsJSON) {
         List<Payload> payloads = new ArrayList<>();
 
