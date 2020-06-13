@@ -3,6 +3,9 @@ package lt.viko.eif.final_project.dao;
 import java.util.List;
 import lt.viko.eif.final_project.pojos.Mission;
 
+/**
+ * The user of this interface has full control of CRUD operations with mission table.
+ */
 public interface MissionDAO {
     /**
      * Gets all missions in the repository.
@@ -11,12 +14,11 @@ public interface MissionDAO {
     List<Mission> getAllMission();
 
     /**
-     * Gets a mission with particular name from the database.
+     * Gets a missions with particular name from the database.
      * @param name name of a searchable mission
-     * @return mission object - if a mission was found<br>
-     *         null - if a mission was not found
+     * @return a list of missions
      */
-    Mission getMissionByName(String name);
+    List<Mission> getMissionsByName(String name);
 
     /**
      * Gets a mission with particular id from the database.
@@ -24,7 +26,7 @@ public interface MissionDAO {
      * @return mission object - if a mission was found<br>
      *         null - if a mission was not found
      */
-    Mission getMission(int id);
+    Mission getMissionById(int id);
 
     /**
      * Adds a mission to the database and to the repository.
@@ -40,4 +42,12 @@ public interface MissionDAO {
      *         false - if operation failed
      */
     boolean updateMission(Mission mission);
+
+    /**
+     * Deletes a specified mission from the database.
+     * @param name name of a mission, which will be deleted
+     * @return true - if a mission and payloads were deleted from the database<br>
+     *         false - if operation failed
+     */
+    boolean deleteMission(String name);
 }

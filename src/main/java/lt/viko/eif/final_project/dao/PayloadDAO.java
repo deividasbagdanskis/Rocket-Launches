@@ -3,8 +3,10 @@ import  lt.viko.eif.final_project.pojos.Payload;
 
 import java.util.List;
 
+/**
+ * The user of this interface has full control of CRUD operations with payload table.
+ */
 public interface PayloadDAO {
-
 
     /**
      * Gets payloads of a particular mission.
@@ -31,9 +33,17 @@ public interface PayloadDAO {
 
     /**
      * Deletes a specified payload from the database.
-     * @param id id of a payload, which will be deleted
+     * @param missionId id of a mission, which payloads will be deleted
+     * @return true - if a payloads was deleted from the database<br>
+     *         false - if operation failed
+     */
+    boolean deletePayloadsByMission(int missionId);
+
+    /**
+     * Deletes a specified payload from the database.
+     * @param description description of a payload, which will be deleted
      * @return true - if a payload was deleted from the database<br>
      *         false - if operation failed
      */
-    boolean deletePayload(int id);
+    boolean deletePayloadByDescription(String description);
 }

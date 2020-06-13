@@ -4,9 +4,10 @@ import lt.viko.eif.final_project.pojos.Customer;
 
 import java.sql.*;
 
+/**
+ * This class implements CRUD operations with customer table in a database.
+ */
 public class CustomerDAOImpl implements  CustomerDAO {
-
-
     private Connection connection;
 
     /**
@@ -38,8 +39,8 @@ public class CustomerDAOImpl implements  CustomerDAO {
     }
 
     @Override
-    public boolean addCustomer(Customer customer) {
-        int result = 0;
+    public int addCustomer(Customer customer) {
+        int customerId = 0;
         try {
             String query = "INSERT IGNORE INTO customer (name, countryCode, wikiURL) VALUES (?, ?, ?)";
 
@@ -47,14 +48,19 @@ public class CustomerDAOImpl implements  CustomerDAO {
             prepStmt.setString(1, customer.getName());
             prepStmt.setString(2, customer.getCountryCode());
             prepStmt.setString(3, customer.getWikiURL());
-            result += prepStmt.executeUpdate();
+            prepStmt.executeUpdate();
 
+            ResultSet generatedKeys = prepStmt.getGeneratedKeys();
+
+            if (generatedKeys.next()) {
+                customerId = generatedKeys.getInt(1);
+            }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
         }
 
-        return result == 1;
+        return customerId;
     }
 
     @Override
@@ -108,7 +114,6 @@ public class CustomerDAOImpl implements  CustomerDAO {
         customer.setName(result.getString(2));
         customer.setCountryCode(result.getString(3));
         customer.setWikiURL(result.getString(4));
-
 
         return customer;
     }

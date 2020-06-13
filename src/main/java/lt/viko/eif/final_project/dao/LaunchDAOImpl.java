@@ -170,20 +170,21 @@ public class LaunchDAOImpl implements LaunchDAO {
     /**
      * Adds a rocket to the database.
      * @param launch launch object, which will be added
-     * @return true - if launch were inserted to the database<br>
-     *         false - if operation failed
+     * @return id of added launch
      */
     @Override
-    public boolean addLaunch(Launch launch) {
-        int result = 0;
+    public int addLaunch(Launch launch) {
+        int launchId = 0;
+        int rocketId = 0;
+        int launchPadId = 0;
 
         try {
-            if (rocketDAO.getRocketByName(launch.getRocket().getName()) == null) {
-                rocketDAO.addRocket(launch.getRocket());
+            if (rocketDAO.getRocketsByName(launch.getRocket().getName()).size() == 0) {
+                rocketId = rocketDAO.addRocket(launch.getRocket());
             }
 
             if (launchPadDAO.getLaunchPadByName(launch.getLaunchPad().getName()) == null) {
-                launchPadDAO.addLaunchPad(launch.getLaunchPad());
+                launchPadId = launchPadDAO.addLaunchPad(launch.getLaunchPad());
             }
 
             String query = "INSERT IGNORE INTO launch (name, windowStart, windowEnd, rocketId, launchPad_Id, " +
@@ -193,17 +194,22 @@ public class LaunchDAOImpl implements LaunchDAO {
             prepStmt.setString(1, launch.getName());
             prepStmt.setTimestamp(2, Timestamp.from(launch.getWindowStart()));
             prepStmt.setTimestamp(3, Timestamp.from(launch.getWindowEnd()));
-            prepStmt.setInt(4, launch.getRocket().getId());
-            prepStmt.setInt(5, launch.getLaunchPad().getId());
+            prepStmt.setInt(4, rocketId);
+            prepStmt.setInt(5, launchPadId);
             prepStmt.setString(6, launch.getLaunchServiceProvider());
+            prepStmt.executeUpdate();
 
-            result += prepStmt.executeUpdate();
+            ResultSet generatedKeys = prepStmt.getGeneratedKeys();
+
+            if (generatedKeys.next()) {
+                launchId = generatedKeys.getInt(1);
+            }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
         }
 
-        return result == 1;
+        return launchId;
     }
 
     /**

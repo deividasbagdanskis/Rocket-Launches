@@ -8,8 +8,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class implements CRUD operations with payload table in a database.
+ */
 public class PayloadDAOImpl implements PayloadDAO {
-
     private Connection connection;
 
     /**
@@ -35,10 +37,10 @@ public class PayloadDAOImpl implements PayloadDAO {
                 Payload payload = new Payload();
 
                 payload.setId(resultStage.getInt(1));
-                payload.setDescription(resultStage.getString(3));
-                payload.setWeight(resultStage.getInt(4));
-                payload.setTotalAmount(resultStage.getInt(5));
-                payload.setMissionId(resultStage.getInt(6));
+                payload.setDescription(resultStage.getString(2));
+                payload.setWeight(resultStage.getInt(3));
+                payload.setTotalAmount(resultStage.getInt(4));
+                payload.setMissionId(resultStage.getInt(5));
 
                 payloads.add(payload);
             }
@@ -74,7 +76,7 @@ public class PayloadDAOImpl implements PayloadDAO {
     public boolean updatePayload(Payload payload) {
         int result = 0;
         try {
-            String query = "UPDATE payload SET description = ?, weight = ?, totalAmount = ?,mission_id = ? WHERE id = ?";
+            String query = "UPDATE payload SET description = ?, weight = ?, totalAmount = ?, mission_id = ? WHERE id = ?";
 
             PreparedStatement prepStmt = connection.prepareStatement(query);
             prepStmt.setString(1, payload.getDescription());
@@ -91,16 +93,32 @@ public class PayloadDAOImpl implements PayloadDAO {
     }
 
     @Override
-    public boolean deletePayload(int id) {
+    public boolean deletePayloadsByMission(int missionId) {
         int result = 0;
 
         try {
-
-
-            String deletePayloadQuery = "DELETE FROM payload WHERE id = ?";
+            String deletePayloadQuery = "DELETE FROM payload WHERE mission_id = ?";
 
             PreparedStatement preparedStatement = connection.prepareStatement(deletePayloadQuery);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, missionId);
+            result += preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return result > 0;
+    }
+
+    @Override
+    public boolean deletePayloadByDescription(String description) {
+        int result = 0;
+
+        try {
+            String deletePayloadQuery = "DELETE FROM payload WHERE description = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(deletePayloadQuery);
+            preparedStatement.setString(1, description);
             result += preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

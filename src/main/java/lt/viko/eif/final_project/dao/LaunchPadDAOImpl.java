@@ -1,11 +1,12 @@
 package lt.viko.eif.final_project.dao;
+
 import lt.viko.eif.final_project.pojos.LaunchPad;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
+ * This class implements CRUD operations with launch pad table in a database.
  * @author Lukas Vanglikas
  */
 public class LaunchPadDAOImpl implements  LaunchPadDAO {
@@ -103,13 +104,11 @@ public class LaunchPadDAOImpl implements  LaunchPadDAO {
     /**
      * Adds a launch pad to the database and to the repository.
      * @param launchPad launch pad object, which will be added
-     * @return true - if launch pad  were inserted to the database<br>
-     *         false - if operation failed
+     * @return id of added launch pad
      */
     @java.lang.Override
-    public boolean addLaunchPad(LaunchPad launchPad)
-    {
-        int result = 0;
+    public int addLaunchPad(LaunchPad launchPad) {
+        int launchPadId = 0;
         try {
             String query = "INSERT IGNORE INTO launchPad (name, locationName, latidude,longitude, wikiURL, mapsURL) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -120,14 +119,19 @@ public class LaunchPadDAOImpl implements  LaunchPadDAO {
             prepStmt.setDouble(4, launchPad.getLongitude());
             prepStmt.setString(5, launchPad.getWikiURL());
             prepStmt.setString(6, launchPad.getMapsURL());
-            result += prepStmt.executeUpdate();
+            prepStmt.executeUpdate();
 
+            ResultSet generatedKeys = prepStmt.getGeneratedKeys();
+
+            if (generatedKeys.next()) {
+                launchPadId = generatedKeys.getInt(1);
+            }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
         }
 
-        return result == 1;
+        return launchPadId;
     }
 
     @Override
@@ -173,6 +177,4 @@ public class LaunchPadDAOImpl implements  LaunchPadDAO {
 
         return launchPad;
     }
-
-
 }

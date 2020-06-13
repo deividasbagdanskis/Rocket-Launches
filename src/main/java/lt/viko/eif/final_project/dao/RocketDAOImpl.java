@@ -50,17 +50,16 @@ public class RocketDAOImpl implements RocketDAO {
     }
 
     /**
-     * Gets a rocket with particular name from the database.
+     * Gets rockets with particular name from the database.
      * @param name name of a searchable rocket
-     * @return rocket object - if a rocket was found<br>
-     *         null - if a rocket was not found
+     * @return a list of rockets
      */
     @Override
-    public Rocket getRocketByName(String name) {
-        Rocket rocket = null;
+    public List<Rocket> getRocketsByName(String name) {
+        List<Rocket> rockets = new ArrayList<>();
 
         try {
-            String query = "SELECT * FROM rocket WHERE name = ? LIMIT 1";
+            String query = "SELECT * FROM rocket WHERE name LIKE CONCAT('%', ?, '%')";
 
             PreparedStatement prepStmt = connection.prepareStatement(query);
             prepStmt.setString(1, name);
@@ -68,13 +67,14 @@ public class RocketDAOImpl implements RocketDAO {
             ResultSet result = prepStmt.executeQuery();
 
             while (result.next()) {
-                rocket = readRocket(result);
+                Rocket rocket = readRocket(result);
+                rockets.add(rocket);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return rocket;
+        return rockets;
     }
 
     /**
@@ -108,14 +108,13 @@ public class RocketDAOImpl implements RocketDAO {
     /**
      * Adds a rocket to the database.
      * @param rocket rocket object, which will be added
-     * @return true - if rocket and stages were inserted to the database<br>
-     *         false - if operation failed
+     * @return id of added rocket
      */
     @Override
-    public boolean addRocket(Rocket rocket) {
-        int result = 0;
+    public int addRocket(Rocket rocket) {
+        int rocketId = 0;
         try {
-            String query = "INSERT IGNORE INTO rocket (name, type, manufacturer, countryOfOrigin, height, diameter, mass,"
+            String query = "INSERT INTO rocket (name, type, manufacturer, countryOfOrigin, height, diameter, mass,"
                     + " numberOfStages, payloadToLEO, payloadToGTO, wikiURL) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement prepStmt = connection.prepareStatement(query);
@@ -130,14 +129,27 @@ public class RocketDAOImpl implements RocketDAO {
             prepStmt.setInt(9, rocket.getPayloadToLEO());
             prepStmt.setInt(10, rocket.getPayloadToGTO());
             prepStmt.setString(11, rocket.findLink("wikiURL"));
-            result += prepStmt.executeUpdate();
+            prepStmt.executeUpdate();
+
+            ResultSet generatedKeys = prepStmt.getGeneratedKeys();
+
+            if (generatedKeys.next()) {
+                rocketId = generatedKeys.getInt(1);
+            }
+
+            if (rocket.getStages().size() != 0) {
+                for (Stage stage : rocket.getStages()) {
+                    stage.setRocketId(rocketId);
+                    addStage(stage);
+                }
+            }
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
         }
 
-        return result == 1;
+        return rocketId;
     }
 
     /**
@@ -166,6 +178,12 @@ public class RocketDAOImpl implements RocketDAO {
             prepStmt.setString(10, rocket.findLink("wikiURL"));
             prepStmt.setString(11, rocket.getName());
             result += prepStmt.executeUpdate();
+
+            if (rocket.getStages().size() != 0) {
+                for (Stage stage : rocket.getStages()) {
+                    updateStage(stage);
+                }
+            }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -261,5 +279,42 @@ public class RocketDAOImpl implements RocketDAO {
         }
 
         return stages;
+    }
+
+    private void addStage(Stage stage) {
+        try {
+            String query = "INSERT INTO stage (rocket_Id, type, numberOfEngines, engine, thrust, fuel) " +
+                    "VALUES (?, ?, ?, ?, ?,?)";
+
+            PreparedStatement prepStmt = connection.prepareStatement(query);
+            prepStmt.setInt(1, stage.getRocketId());
+            prepStmt.setString(2, stage.getType());
+            prepStmt.setInt(3, stage.getNumberOfEngines());
+            prepStmt.setString(4, stage.getEngine());
+            prepStmt.setInt(5, stage.getThrust());
+            prepStmt.setString(6, stage.getFuel());
+            prepStmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateStage(Stage stage) {
+        try {
+            String query = "UPDATE stage SET type = ?, numberOfEngines = ?, engine = ?, thrust = ?, fuel = ? " +
+                    "WHERE rocket_Id = ? AND id = ?";
+
+            PreparedStatement prepStmt = connection.prepareStatement(query);
+            prepStmt.setString(1, stage.getType());
+            prepStmt.setInt(2, stage.getNumberOfEngines());
+            prepStmt.setString(3, stage.getEngine());
+            prepStmt.setInt(4, stage.getThrust());
+            prepStmt.setString(5, stage.getFuel());
+            prepStmt.setInt(6, stage.getRocketId());
+            prepStmt.setInt(7, stage.getId());
+            prepStmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

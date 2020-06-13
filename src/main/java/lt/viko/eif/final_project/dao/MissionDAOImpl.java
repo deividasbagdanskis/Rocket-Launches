@@ -9,11 +9,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class implements CRUD operations with mission table in a database.
+ */
 public class MissionDAOImpl implements  MissionDAO {
 
     private Connection connection;
     private LaunchDAO launchDAO = new LaunchDAOImpl();
-    private CustomerDAO customerDAO= new CustomerDAOImpl();
+    private CustomerDAO customerDAO = new CustomerDAOImpl();
+    private PayloadDAO payloadDAO = new PayloadDAOImpl();
 
     /**
      * Creates new MissionDAOImpl with database connection.
@@ -46,11 +50,11 @@ public class MissionDAOImpl implements  MissionDAO {
     }
 
     @Override
-    public Mission getMissionByName(String name) {
-        Mission mission = null;
+    public List<Mission> getMissionsByName(String name) {
+         List<Mission> missions = new ArrayList<>();
 
         try {
-            String query = "SELECT * FROM mission WHERE name = ? LIMIT 1";
+            String query = "SELECT * FROM mission WHERE name LIKE CONCAT('%', ?, '%')";
 
             PreparedStatement prepStmt = connection.prepareStatement(query);
             prepStmt.setString(1, name);
@@ -58,17 +62,18 @@ public class MissionDAOImpl implements  MissionDAO {
             ResultSet result = prepStmt.executeQuery();
 
             while (result.next()) {
-                mission = readMission(result);
+                Mission mission = readMission(result);
+                missions.add(mission);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return mission;
+        return missions;
     }
 
     @Override
-    public Mission getMission(int id) {
+    public Mission getMissionById(int id) {
         Mission mission = null;
 
         try {
@@ -93,16 +98,33 @@ public class MissionDAOImpl implements  MissionDAO {
     public boolean addMission(Mission mission) {
         int result = 0;
         try {
+            int launchId = launchDAO.addLaunch(mission.getLaunch());
+            int customerId = customerDAO.addCustomer(mission.getCustomer());
+
             String query = "INSERT IGNORE INTO mission (name, description, launch_id, customer_id VALUES (?, ?, ?, ?)";
 
             PreparedStatement prepStmt = connection.prepareStatement(query);
             prepStmt.setString(1, mission.getName());
             prepStmt.setString(2, mission.getDescription());
-            prepStmt.setInt(3, mission.getLaunch().getId());
-            prepStmt.setInt(4, mission.getCustomer().getId());
+            prepStmt.setInt(3, launchId);
+            prepStmt.setInt(4, customerId);
 
             result += prepStmt.executeUpdate();
 
+            ResultSet generatedKeys = prepStmt.getGeneratedKeys();
+
+            int missionId = 0;
+
+            if (generatedKeys.next()) {
+                missionId = generatedKeys.getInt(1);
+            }
+
+            if (mission.getPayloads().size() != 0) {
+                for (Payload payload : mission.getPayloads()) {
+                    payload.setMissionId(missionId);
+                    payloadDAO.addPayload(payload);
+                }
+            }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
@@ -124,11 +146,37 @@ public class MissionDAOImpl implements  MissionDAO {
             prepStmt.setString(4, mission.getName());
 
             result += prepStmt.executeUpdate();
+
+            for (Payload payload : mission.getPayloads()) {
+                payloadDAO.updatePayload(payload);
+            }
+            customerDAO.updateCustomer(mission.getCustomer());
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
 
         return result == 1;
+    }
+
+    @Override
+    public boolean deleteMission(String name) {
+        int result = 0;
+
+        try {
+            Mission mission = getMissionsByName(name).get(0);
+            payloadDAO.deletePayloadsByMission(mission.getId());
+
+            String deleteMissionQuery = "DELETE FROM mission WHERE name = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteMissionQuery);
+            preparedStatement.setString(1, name);
+            result += preparedStatement.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return result > 0;
     }
 
     /**
@@ -146,12 +194,8 @@ public class MissionDAOImpl implements  MissionDAO {
         mission.setLaunch(launch);
         Customer customer = customerDAO.getCustomerById(result.getInt(5));
         mission.setCustomer(customer);
+        mission.setPayloads(payloadDAO.getPayloads(mission.getId()));
 
         return mission;
     }
-
-
-
-
-
 }

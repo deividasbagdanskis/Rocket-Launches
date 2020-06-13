@@ -1,6 +1,9 @@
 package lt.viko.eif.final_project.dao;
 import lt.viko.eif.final_project.pojos.Customer;
 
+/**
+ * The user of this interface has full control of CRUD operations with customer table.
+ */
 public interface CustomerDAO {
 
     /**
@@ -13,12 +16,11 @@ public interface CustomerDAO {
 
 
     /**
-     * Adds a customer to the database and to the repository.
+     * Adds a customer to the database.
      * @param customer customer object, which will be added
-     * @return true - if customer  were inserted to the database<br>
-     *         false - if operation failed
+     * @return id of added customer
      */
-    boolean addCustomer(Customer customer);
+    int addCustomer(Customer customer);
 
     /**
      * Updates a customer with a matching id in the database.

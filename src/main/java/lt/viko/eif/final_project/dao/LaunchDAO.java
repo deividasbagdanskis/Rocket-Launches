@@ -50,10 +50,9 @@ public interface LaunchDAO {
     /**
      * Adds a rocket to the database.
      * @param launch launch object, which will be added
-     * @return true - if launch were inserted to the database<br>
-     *         false - if operation failed
+     * @return id of added launch
      */
-    boolean addLaunch(Launch launch);
+    int addLaunch(Launch launch);
 
     /**
      * Updates a launch with a matching name in the database.

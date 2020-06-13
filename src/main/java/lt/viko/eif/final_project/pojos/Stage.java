@@ -2,6 +2,7 @@ package lt.viko.eif.final_project.pojos;
 
 public class Stage {
     private int Id;
+    private int rocketId;
     private String type;
     private int numberOfEngines;
     private String engine;
@@ -14,6 +15,14 @@ public class Stage {
 
     public void setId(int id) {
         Id = id;
+    }
+
+    public int getRocketId() {
+        return rocketId;
+    }
+
+    public void setRocketId(int rocketId) {
+        this.rocketId = rocketId;
     }
 
     public String getType() {

@@ -1,15 +1,15 @@
 package lt.viko.eif.final_project.dao;
 
-
 import java.util.List;
 import lt.viko.eif.final_project.pojos.LaunchPad;
 
 /**
+ * The user of this interface has full control of CRUD operations with launch pad table.
  * @author Lukas Vanglikas
  */
 public interface LaunchPadDAO {
     /**
-     * Gets all launch pads in the repository.
+     * Gets all launch pads in the database.
      * @return a list of launch pads
      */
     List<LaunchPad> getAllLaunchPads();
@@ -33,10 +33,9 @@ public interface LaunchPadDAO {
     /**
      * Adds a launch pad to the database and to the repository.
      * @param launchPad launch pad object, which will be added
-     * @return true - if launch pad  were inserted to the database<br>
-     *         false - if operation failed
+     * @return id of added launch pad
      */
-    boolean addLaunchPad(LaunchPad launchPad);
+    int addLaunchPad(LaunchPad launchPad);
 
     /**
      * Deletes a specified launch pad from the database.
@@ -45,5 +44,4 @@ public interface LaunchPadDAO {
      *         false - if operation failed
      */
     boolean deleteLaunchPad(int id);
-
 }

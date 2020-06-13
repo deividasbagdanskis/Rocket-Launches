@@ -211,7 +211,6 @@ public class LaunchLibraryClientImpl implements LaunchLibraryClient {
             payload.setDescription(payloadsJSON.getJSONObject(i).getString("description"));
             payload.setWeight((int) payloadsJSON.getJSONObject(i).getDouble("weight"));
             payload.setTotalAmount(payloadsJSON.getJSONObject(i).getInt("total"));
-            // TODO MissionDAO padaryti jog i db pridetos misijos id butu pridetas prie payloadu mission_id
             payloads.add(payload);
         }
 

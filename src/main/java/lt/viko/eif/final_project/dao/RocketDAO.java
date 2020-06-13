@@ -17,12 +17,11 @@ public interface RocketDAO {
     List<Rocket> getAllRockets();
 
     /**
-     * Gets a rocket with particular name from the database.
+     * Gets rockets with particular name from the database.
      * @param name name of a searchable rocket
-     * @return rocket object - if a rocket was found<br>
-     *         null - if a rocket was not found
+     * @return a list of rockets
      */
-    Rocket getRocketByName(String name);
+    List<Rocket> getRocketsByName(String name);
 
     /**
      * Gets a rocket with particular id from the database.
@@ -35,10 +34,9 @@ public interface RocketDAO {
     /**
      * Adds a rocket to the database.
      * @param rocket rocket object, which will be added
-     * @return true - if rocket and stages were inserted to the database<br>
-     *         false - if operation failed
+     * @return id of added rocket
      */
-    boolean addRocket(Rocket rocket);
+    int  addRocket(Rocket rocket);
     /**
      * Updates a rocket with a matching name in the database.
      * @param rocket rocket object with updated data, but with the same name
