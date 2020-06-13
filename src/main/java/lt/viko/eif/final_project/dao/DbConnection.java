@@ -18,8 +18,9 @@ public class DbConnection {
 
     public DbConnection() {
         try {
+            Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(dbURL);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

@@ -2,11 +2,16 @@ package lt.viko.eif.final_project.dao;
 
 import lt.viko.eif.final_project.pojos.Customer;
 
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.sql.*;
 
 /**
  * This class implements CRUD operations with customer table in a database.
  */
+@Path("customers")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class CustomerDAOImpl implements  CustomerDAO {
     private Connection connection;
 
@@ -17,8 +22,11 @@ public class CustomerDAOImpl implements  CustomerDAO {
         DbConnection dbConnection = new DbConnection();
         connection = dbConnection.getConnection();
     }
+
+    @GET
+    @Path("{customerId}")
     @Override
-    public Customer getCustomerById(int id) {
+    public Customer getCustomerById(@PathParam("customerId") int id) {
         Customer customer = null;
 
         try {
