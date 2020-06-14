@@ -17,6 +17,7 @@ public class ApplicationConfig extends Application {
         HashSet<Class<?>> h = new HashSet<>();
 
         h.add(LaunchServiceImpl.class);
+        h.add(MissionServiceImpl.class);
 
         return h;
     }
