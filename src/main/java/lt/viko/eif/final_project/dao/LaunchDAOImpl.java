@@ -179,6 +179,8 @@ public class LaunchDAOImpl implements LaunchDAO {
         int launchPadId = 0;
 
         try {
+            rocketId = launch.getRocket().getId();
+            launchPadId = launch.getLaunchPad().getId();
             if (rocketDAO.getRocketsByName(launch.getRocket().getName()).size() == 0) {
                 rocketId = rocketDAO.addRocket(launch.getRocket());
             }

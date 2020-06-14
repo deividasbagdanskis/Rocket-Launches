@@ -9,9 +9,6 @@ import java.sql.*;
 /**
  * This class implements CRUD operations with customer table in a database.
  */
-@Path("customers")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
 public class CustomerDAOImpl implements  CustomerDAO {
     private Connection connection;
 
@@ -23,10 +20,8 @@ public class CustomerDAOImpl implements  CustomerDAO {
         connection = dbConnection.getConnection();
     }
 
-    @GET
-    @Path("{customerId}")
     @Override
-    public Customer getCustomerById(@PathParam("customerId") int id) {
+    public Customer getCustomerById(int id) {
         Customer customer = null;
 
         try {

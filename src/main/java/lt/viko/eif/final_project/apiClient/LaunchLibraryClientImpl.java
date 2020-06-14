@@ -10,6 +10,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,15 +22,13 @@ import java.util.List;
 public class LaunchLibraryClientImpl implements LaunchLibraryClient {
     private Client client;
     private WebTarget webTarget;
-    private DateTimeFormatter formatter;
 
     /**
-     * Creates Launch Library API client and DateTimeFormatter.
+     * Creates Launch Library API client.
      */
     public LaunchLibraryClientImpl() {
         client = ClientBuilder.newClient();
         webTarget = client.target("https://launchlibrary.net/1.4");
-        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
     }
 
     /**
@@ -156,18 +155,18 @@ public class LaunchLibraryClientImpl implements LaunchLibraryClient {
 
         JSONArray array = jsonObject.getJSONArray("launches");
 
-        String windowStart = "";
-        String windowEnd = "";
+        long windowStart = 0;
+        long windowEnd = 0;
 
         for (int i = 0; i < array.length(); i++) {
             Launch launch = new Launch();
             launch.setName(array.getJSONObject(i).getString("name"));
 
-            windowStart = array.getJSONObject(i).getString("isostart");
-            windowEnd = array.getJSONObject(i).getString("isoend");
+            windowStart = array.getJSONObject(i).getLong("wsstamp");
+            windowEnd = array.getJSONObject(i).getLong("westamp");
 
-            launch.setWindowStart((Instant) formatter.parse(windowStart));
-            launch.setWindowEnd((Instant) formatter.parse(windowEnd));
+            launch.setWindowStart(Instant.ofEpochSecond(windowStart));
+            launch.setWindowEnd(Instant.ofEpochSecond(windowEnd));
 
             rocketJSON = array.getJSONObject(i).getJSONObject("rocket");
             Rocket rocket = new Rocket();

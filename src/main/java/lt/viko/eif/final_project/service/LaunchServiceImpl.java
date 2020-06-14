@@ -13,15 +13,15 @@ import java.util.List;
 /**
  * @author Deividas Bagdanskis
  */
-//@Path("launches")
+@Path("launches")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class LaunchServiceImpl implements LaunchService {
+public class LaunchServiceImpl {
     private LaunchDAO launchDAO = new LaunchDAOImpl();
     private LaunchLibraryClient launchLibraryClient = new LaunchLibraryClientImpl();
 
-//    @GET
-    @Override
+    @GET
+//    @Override
     public Response getAllLaunches(@Context UriInfo uriInfo) {
         List<Launch> launches = launchDAO.getAllLaunches();
 
@@ -35,8 +35,9 @@ public class LaunchServiceImpl implements LaunchService {
         return Response.ok(launches).cacheControl(cacheControl).build();
     }
 
+    @GET
     @Path("{name}")
-    @Override
+//    @Override
     public Response getLaunchesByName(@PathParam(value = "name") String name, @Context UriInfo uriInfo) {
         List<Launch> launches = launchDAO.getLaunchesByName(name);
 
@@ -53,27 +54,27 @@ public class LaunchServiceImpl implements LaunchService {
         return Response.ok(launches).cacheControl(cacheControl).build();
     }
 
-    @Override
+//    @Override
     public Response getUpcomingLaunches(int amount, UriInfo uriInfo) {
         return null;
     }
 
-    @Override
+//    @Override
     public Response getLaunchesByDates(String startDate, String endDate, UriInfo uriInfo) {
         return null;
     }
 
-    @Override
+//    @Override
     public Response addLaunch(Launch launch, UriInfo uriInfo) {
         return null;
     }
 
-    @Override
+//    @Override
     public Response updateLaunch(int id, Launch launch, UriInfo uriInfo) {
         return null;
     }
 
-    @Override
+//    @Override
     public void deleteLaunch(int id) {
 
     }
