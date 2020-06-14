@@ -53,8 +53,8 @@ public class LaunchDAOImpl implements LaunchDAO {
     }
 
     /**
-     * Gets a launch with particular name from the database.
-     * @param name name of a searchable launch
+     * Gets launches with particular name from the database.
+     * @param name name of a searchable launches
      * @return rocket object - if a launch was found<br>
      *         null - if a launch was not found
      */
@@ -168,7 +168,7 @@ public class LaunchDAOImpl implements LaunchDAO {
     }
 
     /**
-     * Adds a rocket to the database.
+     * Adds a launch to the database.
      * @param launch launch object, which will be added
      * @return id of added launch
      */
@@ -190,7 +190,7 @@ public class LaunchDAOImpl implements LaunchDAO {
             String query = "INSERT IGNORE INTO launch (name, windowStart, windowEnd, rocketId, launchPad_Id, " +
                     "launchServiceProvider) VALUES (?, ?, ?, ?, ?, ?))";
 
-            PreparedStatement prepStmt = connection.prepareStatement(query);
+            PreparedStatement prepStmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             prepStmt.setString(1, launch.getName());
             prepStmt.setTimestamp(2, Timestamp.from(launch.getWindowStart()));
             prepStmt.setTimestamp(3, Timestamp.from(launch.getWindowEnd()));

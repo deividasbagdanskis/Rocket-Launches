@@ -112,7 +112,7 @@ public class LaunchPadDAOImpl implements  LaunchPadDAO {
         try {
             String query = "INSERT IGNORE INTO launchPad (name, locationName, latidude,longitude, wikiURL, mapsURL) VALUES (?, ?, ?, ?, ?, ?)";
 
-            PreparedStatement prepStmt = connection.prepareStatement(query);
+            PreparedStatement prepStmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             prepStmt.setString(1, launchPad.getName());
             prepStmt.setString(2, launchPad.getLocationName());
             prepStmt.setDouble(3, launchPad.getLatitude());

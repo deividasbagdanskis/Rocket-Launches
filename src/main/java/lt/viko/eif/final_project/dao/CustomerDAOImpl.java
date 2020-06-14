@@ -44,7 +44,7 @@ public class CustomerDAOImpl implements  CustomerDAO {
         try {
             String query = "INSERT IGNORE INTO customer (name, countryCode, wikiURL) VALUES (?, ?, ?)";
 
-            PreparedStatement prepStmt = connection.prepareStatement(query);
+            PreparedStatement prepStmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             prepStmt.setString(1, customer.getName());
             prepStmt.setString(2, customer.getCountryCode());
             prepStmt.setString(3, customer.getWikiURL());
@@ -88,7 +88,7 @@ public class CustomerDAOImpl implements  CustomerDAO {
         int result = 0;
 
         try {
-            String updateMissionQuery = "UPDATE mission SET customer_id = ? WHERE customer = ?";
+            String updateMissionQuery = "UPDATE mission SET customer_id = ? WHERE customer_id = ?";
 
             PreparedStatement prepStmt = connection.prepareStatement(updateMissionQuery);
             prepStmt.setInt(1, 0);

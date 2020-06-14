@@ -117,7 +117,7 @@ public class RocketDAOImpl implements RocketDAO {
             String query = "INSERT INTO rocket (name, type, manufacturer, countryOfOrigin, height, diameter, mass,"
                     + " numberOfStages, payloadToLEO, payloadToGTO, wikiURL) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            PreparedStatement prepStmt = connection.prepareStatement(query);
+            PreparedStatement prepStmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             prepStmt.setString(1, rocket.getName());
             prepStmt.setString(2, rocket.getType());
             prepStmt.setString(3, rocket.getManufacturer());
