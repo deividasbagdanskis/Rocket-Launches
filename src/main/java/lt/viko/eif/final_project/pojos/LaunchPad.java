@@ -1,5 +1,8 @@
 package lt.viko.eif.final_project.pojos;
 
+import javax.ws.rs.core.Link;
+import java.util.List;
+
 public class LaunchPad {
 
     private int Id;
@@ -9,6 +12,7 @@ public class LaunchPad {
     private double longitude;
     private String wikiURL;
     private String mapsURL;
+    private List<Link> links;
 
     public int getId() {
         return Id;
@@ -64,5 +68,24 @@ public class LaunchPad {
 
     public void setMapsURL(String mapsURL) {
         this.mapsURL = mapsURL;
+    }
+
+    public void addLink(String url, String rel) {
+        Link link = Link.fromUri(url).rel(rel).build();
+        this.links.add(link);
+    }
+
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public String findLink(String rel) {
+        for (Link link : this.links) {
+            if (link.getRel().equals(rel)) {
+                return link.getUri().toString();
+            }
+        }
+
+        return null;
     }
 }
