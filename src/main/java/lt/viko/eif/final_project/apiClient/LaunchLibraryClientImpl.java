@@ -72,6 +72,18 @@ public class LaunchLibraryClientImpl implements LaunchLibraryClient {
     }
 
     /**
+     * Gets a specified number of upcoming launches from Launch Library API.
+     * @param amount number of upcoming launches
+     * @return a list of upcoming launches
+     */
+    @Override
+    public List<Launch> getUpcomingLaunches(int amount) {
+        List<Launch> launches = new ArrayList<>();
+        Invocation.Builder invBuilder = webTarget.path("launch/" + amount).request(MediaType.APPLICATION_JSON_TYPE);
+
+        return readLaunchesFromJson(launches, invBuilder);
+    }
+    /**
      * Gets a list of launches between given start date and end date from Launch Library API.
      * @param startDate start date
      * @param endDate end date

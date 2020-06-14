@@ -7,6 +7,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.io.UnsupportedEncodingException;
 
 /**
  * The user of this interface has full control of CRUD operations with launch object as a RESTful web service.
@@ -32,7 +33,8 @@ public interface LaunchService {
      */
     @GET
     @Path("{name}")
-    Response getLaunchesByName(@PathParam(value = "name") String name, @Context UriInfo uriInfo);
+    Response getLaunchesByName(@PathParam(value = "name") String name, @Context UriInfo uriInfo)
+            throws UnsupportedEncodingException;
 
     /**
      * Gets a specified number of upcoming launches.
@@ -41,8 +43,8 @@ public interface LaunchService {
      * @return status code with response body
      */
     @GET
-    @Path(value = "{amount}")
-    Response getUpcomingLaunches(@PathParam(value = "amount") int amount, @Context UriInfo uriInfo);
+    @Path("{amount}")
+    Response getUpcomingLaunches(@PathParam("amount") int amount, @Context UriInfo uriInfo);
 
     /**
      * Gets launches between given start date and end date.
@@ -53,7 +55,7 @@ public interface LaunchService {
      */
     @GET
     @Path(value = "{startDate}/{endDate}")
-    Response getLaunchesByDates(@PathParam(value = "startDate") String startDate, @PathParam(value = "endDate")
+    Response getLaunchesByDates(@PathParam("startDate") String startDate, @PathParam("endDate")
             String endDate, @Context UriInfo uriInfo);
 
     /**
@@ -73,14 +75,14 @@ public interface LaunchService {
      * @return status code with response body
      */
     @PUT
-    @Path(value = "{id}")
-    Response updateLaunch(@PathParam(value = "id") int id, Launch launch, @Context UriInfo uriInfo);
+    @Path("{id}")
+    Response updateLaunch(@PathParam("id") int id, Launch launch, @Context UriInfo uriInfo);
 
     /**
      * Deletes a specified launch from the database.
      * @param id id of a launch, which will be deleted
      */
     @DELETE
-    @Path(value = "{id}")
-    void deleteLaunch(@PathParam(value = "id") int id);
+    @Path("{id}")
+    void deleteLaunch(@PathParam("id") int id);
 }

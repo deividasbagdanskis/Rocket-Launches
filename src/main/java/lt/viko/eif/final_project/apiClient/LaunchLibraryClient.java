@@ -27,6 +27,13 @@ public interface LaunchLibraryClient {
     List<Launch> getLaunchesByName(String name);
 
     /**
+     * Gets a specified number of upcoming launches from Launch Library API.
+     * @param amount number of upcoming launches
+     * @return a list of upcoming launches
+     */
+    List<Launch> getUpcomingLaunches(int amount);
+
+    /**
      * Gets a list of launches between given start date and end date from Launch Library API.
      * @param startDate start date
      * @param endDate end date

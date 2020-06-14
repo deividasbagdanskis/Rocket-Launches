@@ -1,6 +1,10 @@
 package lt.viko.eif.final_project.pojos;
 
+import sun.awt.image.ImageWatched;
+
+import javax.ws.rs.core.Link;
 import java.time.Instant;
+import java.util.List;
 
 public class Launch {
     private int Id;
@@ -10,6 +14,7 @@ public class Launch {
     private Rocket rocket;
     private LaunchPad launchPad;
     private String launchServiceProvider;
+    private List<Link> links;
 
     public int getId() {
         return Id;
@@ -66,4 +71,25 @@ public class Launch {
     public void setLaunchServiceProvider(String launchServiceProvider) {
         this.launchServiceProvider = launchServiceProvider;
     }
+
+    public void addLink(String url, String rel) {
+        Link link = Link.fromUri(url).rel(rel).build();
+        this.links.add(link);
+    }
+
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public String findLink(String rel) {
+        for (Link link : this.links) {
+            if (link.getRel().equals(rel)) {
+                return link.getUri().toString();
+            }
+        }
+
+        return null;
+    }
+
+
 }
