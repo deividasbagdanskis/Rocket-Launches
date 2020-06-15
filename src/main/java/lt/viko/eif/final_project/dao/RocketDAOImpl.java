@@ -61,7 +61,7 @@ public class RocketDAOImpl implements RocketDAO {
         try {
             String query = "SELECT * FROM rocket WHERE name LIKE CONCAT('%', ?, '%')";
 
-            PreparedStatement prepStmt = connection.prepareStatement(query);
+            PreparedStatement prepStmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             prepStmt.setString(1, name);
 
             ResultSet result = prepStmt.executeQuery();
@@ -90,7 +90,7 @@ public class RocketDAOImpl implements RocketDAO {
         try {
             String query = "SELECT * FROM rocket WHERE Id = ? LIMIT 1";
 
-            PreparedStatement prepStmt = connection.prepareStatement(query);
+            PreparedStatement prepStmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             prepStmt.setInt(1, id);
 
             ResultSet result = prepStmt.executeQuery();

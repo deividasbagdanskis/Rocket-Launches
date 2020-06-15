@@ -120,8 +120,8 @@ public class Rocket {
     }
 
     public void addLink(String url, String rel) {
-        Link link = Link.fromUri(url).rel(rel).build();
-        this.links.add(link);
+            Link link = Link.fromUri(url).rel(rel).build();
+            this.links.add(link);
     }
 
     public String findLink(String rel) {
