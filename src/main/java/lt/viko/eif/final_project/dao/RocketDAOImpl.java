@@ -128,7 +128,7 @@ public class RocketDAOImpl implements RocketDAO {
             prepStmt.setInt(8, rocket.getNumberOfStages());
             prepStmt.setInt(9, rocket.getPayloadToLEO());
             prepStmt.setInt(10, rocket.getPayloadToGTO());
-            prepStmt.setString(11, rocket.findLink("wikiURL"));
+            prepStmt.setString(11, rocket.getWikiURL());
             prepStmt.executeUpdate();
 
             ResultSet generatedKeys = prepStmt.getGeneratedKeys();
@@ -163,7 +163,7 @@ public class RocketDAOImpl implements RocketDAO {
         int result = 0;
         try {
             String query = "UPDATE rocket SET type = ?, manufacturer = ?, countryOfOrigin = ?, height = ?, diameter = ?,"
-                    + " mass = ?, numberOfStages = ?, payloadToLEO = ?, payloadToGTO = ?, wikiURL = ? WHERE name = ?";
+                    + " mass = ?, numberOfStages = ?, payloadToLEO = ?, payloadToGTO = ?, wikiURL = ? WHERE 'name' = ?";
 
             PreparedStatement prepStmt = connection.prepareStatement(query);
             prepStmt.setString(1, rocket.getType());
@@ -241,7 +241,7 @@ public class RocketDAOImpl implements RocketDAO {
         rocket.setPayloadToLEO(result.getInt(10));
         rocket.setPayloadToGTO(result.getInt(11));
         rocket.setStages(getStages(rocket.getId()));
-        rocket.addLink(result.getString(12), "wikiURL");
+        rocket.setWikiURL(result.getString(12));
 
         return rocket;
     }

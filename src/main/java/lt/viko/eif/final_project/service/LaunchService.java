@@ -14,7 +14,6 @@ import java.io.UnsupportedEncodingException;
  * @author Deividas Bagdanskis
  */
 //@Stateless
-@Path("launches")
 public interface LaunchService {
 
     /***
@@ -22,7 +21,6 @@ public interface LaunchService {
      * @param uriInfo information about URI
      * @return status code with response body
      */
-    @GET
     Response getAllLaunches(@Context UriInfo uriInfo);
 
     /**
@@ -31,7 +29,6 @@ public interface LaunchService {
      * @param uriInfo uriInfo information about URI
      * @return status code with response body
      */
-    @GET
     @Path("{name}")
     Response getLaunchesByName(@PathParam(value = "name") String name, @Context UriInfo uriInfo)
             throws UnsupportedEncodingException;
@@ -42,9 +39,8 @@ public interface LaunchService {
      * @param uriInfo uriInfo information about URI
      * @return status code with response body
      */
-    @GET
-    @Path("{amount}")
-    Response getUpcomingLaunches(@PathParam("amount") int amount, @Context UriInfo uriInfo);
+    @Path("next/{amount}")
+    Response getUpcomingLaunches(@PathParam(value = "amount") int amount, @Context UriInfo uriInfo);
 
     /**
      * Gets launches between given start date and end date.
@@ -53,7 +49,6 @@ public interface LaunchService {
      * @param uriInfo uriInfo information about URI
      * @return status code with response body
      */
-    @GET
     @Path(value = "{startDate}/{endDate}")
     Response getLaunchesByDates(@PathParam("startDate") String startDate, @PathParam("endDate")
             String endDate, @Context UriInfo uriInfo);
@@ -64,7 +59,6 @@ public interface LaunchService {
      * @param uriInfo uriInfo uriInfo information about URI
      * @return status code with response body
      */
-    @POST
     Response addLaunch(Launch launch, @Context UriInfo uriInfo);
 
     /**
@@ -74,15 +68,11 @@ public interface LaunchService {
      * @param uriInfo uriInfo uriInfo information about URI
      * @return status code with response body
      */
-    @PUT
-    @Path("{id}")
-    Response updateLaunch(@PathParam("id") int id, Launch launch, @Context UriInfo uriInfo);
+    Response updateLaunch(int id, Launch launch, @Context UriInfo uriInfo);
 
     /**
      * Deletes a specified launch from the database.
      * @param id id of a launch, which will be deleted
      */
-    @DELETE
-    @Path("{id}")
-    void deleteLaunch(@PathParam("id") int id);
+    Response deleteLaunch(int id);
 }

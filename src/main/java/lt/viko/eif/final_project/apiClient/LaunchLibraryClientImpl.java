@@ -79,7 +79,7 @@ public class LaunchLibraryClientImpl implements LaunchLibraryClient {
     @Override
     public List<Launch> getUpcomingLaunches(int amount) {
         List<Launch> launches = new ArrayList<>();
-        Invocation.Builder invBuilder = webTarget.path("launch/" + amount).request(MediaType.APPLICATION_JSON_TYPE);
+        Invocation.Builder invBuilder = webTarget.path("launch/next/" + amount).request(MediaType.APPLICATION_JSON_TYPE);
 
         return readLaunchesFromJson(launches, invBuilder);
     }
@@ -192,8 +192,8 @@ public class LaunchLibraryClientImpl implements LaunchLibraryClient {
 
             LaunchPad launchPad = new LaunchPad();
             launchPad.setName(launchPadJSON.getString("name"));
-            launchPad.setLongitude(launchPadJSON.getDouble("longitude"));
-            launchPad.setLatitude(launchPadJSON.getDouble("latitude"));
+            launchPad.setLongitude(launchPadJSON.getBigDecimal("longitude"));
+            launchPad.setLatitude(launchPadJSON.getBigDecimal("latitude"));
             launchPad.setMapsURL(launchPadJSON.getString("mapURL"));
             launchPad.setWikiURL(launchPadJSON.getString("wikiURL"));
             launchPad.setLocationName(location.getString("name"));

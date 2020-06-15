@@ -27,7 +27,6 @@ public class LaunchPadServiceImpl implements LaunchPadService {
 
     private LaunchPadDAO launchPadDAO = new LaunchPadDAOImpl();
 
-
     @Override
     public Response getAllLaunchPads(@Context UriInfo uriInfo) {
         List<LaunchPad> LaunchPads = launchPadDAO.getAllLaunchPads();

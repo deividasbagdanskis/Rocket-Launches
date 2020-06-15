@@ -9,6 +9,9 @@ public class Stage {
     private int thrust;
     private String fuel;
 
+    public Stage() {
+    }
+
     public int getId() {
         return Id;
     }

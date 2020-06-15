@@ -4,6 +4,7 @@ import sun.awt.image.ImageWatched;
 
 import javax.ws.rs.core.Link;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Launch {
@@ -14,7 +15,10 @@ public class Launch {
     private Rocket rocket;
     private LaunchPad launchPad;
     private String launchServiceProvider;
-    private List<Link> links;
+    private List<Link> links = new ArrayList<>();
+
+    public Launch() {
+    }
 
     public int getId() {
         return Id;
@@ -77,6 +81,10 @@ public class Launch {
         this.links.add(link);
     }
 
+    public void setLinks(List<Link> links) {
+        this.links = links;
+    }
+
     public List<Link> getLinks() {
         return links;
     }
@@ -90,6 +98,4 @@ public class Launch {
 
         return null;
     }
-
-
 }
