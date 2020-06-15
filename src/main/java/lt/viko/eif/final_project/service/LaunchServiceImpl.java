@@ -11,6 +11,7 @@ import javax.ws.rs.core.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -26,6 +27,7 @@ public class LaunchServiceImpl implements LaunchService {
     private LaunchLibraryClient launchLibraryClient = new LaunchLibraryClientImpl();
 
     @Override
+    @GET
     public Response getAllLaunches(@Context UriInfo uriInfo) {
         List<Launch> launches = launchDAO.getAllLaunches();
 
@@ -44,6 +46,7 @@ public class LaunchServiceImpl implements LaunchService {
     }
 
     @Override
+    @GET
     @Path("{name}")
     public Response getLaunchesByName(@PathParam(value = "name") String name, @Context UriInfo uriInfo)
             throws UnsupportedEncodingException {
@@ -56,15 +59,21 @@ public class LaunchServiceImpl implements LaunchService {
                 launchDAO.addLaunch(launch);
             }
         }
+
+        for (Launch launch : launches) {
+            launch.addLink(getUriForSelf(uriInfo, launch.getName()), "self");
+        }
+
         CacheControl cacheControl = new CacheControl();
         cacheControl.setMaxAge(60);
 
         return Response.ok(launches).cacheControl(cacheControl).build();
     }
 
+    @GET
     @Override
-    @Path("/next/{amount}")
-    public Response getUpcomingLaunches(@PathParam("amount") int amount, @Context UriInfo uriInfo) {
+    @Path("next/{amount}")
+    public Response getUpcomingLaunches(@PathParam(value = "amount") int amount, @Context UriInfo uriInfo) {
         List<Launch> launches = launchDAO.getUpcomingLaunches(amount);
 
         if (launches.size() == 0) {
@@ -72,6 +81,10 @@ public class LaunchServiceImpl implements LaunchService {
 
             for (Launch launch : launches) {
                 launchDAO.addLaunch(launch);
+            }
+
+            for (Launch launch : launches) {
+                launch.addLink(getUriForSelf(uriInfo, launch.getName()), "self");
             }
         }
 
@@ -81,6 +94,7 @@ public class LaunchServiceImpl implements LaunchService {
         return Response.ok(launches).cacheControl(cacheControl).build();
     }
 
+    @GET
     @Override
     @Path("{startDate}/{endDate}")
     public Response getLaunchesByDates(@PathParam("startDate") String startDate, @PathParam("endDate") String endDate,
@@ -108,6 +122,10 @@ public class LaunchServiceImpl implements LaunchService {
                 }
             }
 
+            for (Launch launch : launches) {
+                launch.addLink(getUriForSelf(uriInfo, launch.getName()), "self");
+            }
+
             CacheControl cacheControl = new CacheControl();
             cacheControl.setMaxAge(60);
 
@@ -116,19 +134,23 @@ public class LaunchServiceImpl implements LaunchService {
         return Response.status(400).build();
     }
 
+    @POST
     @Override
     public Response addLaunch(Launch launch, @Context UriInfo uriInfo) {
         if (launchDAO.addLaunch(launch) != 0) {
+            launch.addLink(getUriForSelf(uriInfo, launch.getName()), "self");
             return Response.ok(launch).build();
         }
         return Response.serverError().build();
     }
 
+    @PUT
     @Override
     @Path("{id}")
     public Response updateLaunch(@PathParam("id") int id, Launch launch, @Context UriInfo uriInfo) {
         if (launchDAO.getLaunchById(id) != null) {
             if (launchDAO.updateLaunch(launch)) {
+                launch.addLink(getUriForSelf(uriInfo, launch.getName()), "self");
                 return Response.ok(launch).build();
             }
             return Response.serverError().build();
@@ -138,17 +160,23 @@ public class LaunchServiceImpl implements LaunchService {
     }
 
     @Override
-    public void deleteLaunch(int id) {
+    @DELETE
+    @Path("{id}")
+    public Response deleteLaunch(@PathParam("id") int id) {
         if (launchDAO.getLaunchById(id) != null) {
-            launchDAO.deleteLaunch(id);
+            if (launchDAO.deleteLaunch(id)) {
+                return Response.noContent().build();
+            }
         }
+
+        return Response.serverError().build();
     }
 
     private String getUriForSelf(UriInfo uriInfo, String name) {
         URI uri = null;
         try {
             uri = uriInfo.getBaseUriBuilder().path(this.getClass()).path(this.getClass(), "getLaunchesByName")
-                    .queryParam("name", URLDecoder.decode(name, "UTF-8")).build();
+                    .resolveTemplate("name", URLEncoder.encode(name, "UTF-8")).build();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

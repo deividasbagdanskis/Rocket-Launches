@@ -4,6 +4,7 @@ import lt.viko.eif.final_project.pojos.Launch;
 import lt.viko.eif.final_project.pojos.LaunchPad;
 import lt.viko.eif.final_project.pojos.Rocket;
 
+import javax.ws.rs.GET;
 import java.sql.*;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class LaunchDAOImpl implements LaunchDAO {
         List<Launch> launches = new ArrayList<>();
 
         try {
-            String query = "SELECT * FROM launch WHERE name LIKE CONCAT('%', ?, '%')";
+            String query = "SELECT * FROM launch WHERE `name` LIKE CONCAT('%', ?, '%')";
 
             PreparedStatement prepStmt = connection.prepareStatement(query);
             prepStmt.setString(1, name);
@@ -113,6 +114,7 @@ public class LaunchDAOImpl implements LaunchDAO {
      * @param amount number of upcoming launches
      * @return a list of upcoming launches
      */
+    @GET
     @Override
     public List<Launch> getUpcomingLaunches(int amount) {
         List<Launch> launches = new ArrayList<>();
@@ -183,21 +185,28 @@ public class LaunchDAOImpl implements LaunchDAO {
             launchPadId = launch.getLaunchPad().getId();
             if (rocketDAO.getRocketsByName(launch.getRocket().getName()).size() == 0) {
                 rocketId = rocketDAO.addRocket(launch.getRocket());
+            } else {
+                rocketId = rocketDAO.getRocketsByName(launch.getRocket().getName()).get(0).getId();
             }
 
             if (launchPadDAO.getLaunchPadByName(launch.getLaunchPad().getName()) == null) {
                 launchPadId = launchPadDAO.addLaunchPad(launch.getLaunchPad());
+            } else {
+                launchPadId = launchPadDAO.getLaunchPadByName(launch.getLaunchPad().getName()).getId();
             }
 
-            String query = "INSERT IGNORE INTO launch (name, windowStart, windowEnd, rocketId, launchPad_Id, " +
-                    "launchServiceProvider) VALUES (?, ?, ?, ?, ?, ?))";
+            launch.getRocket().setId(rocketId);
+            launch.getLaunchPad().setId(launchPadId);
+
+            String query = "INSERT INTO launch (`name`, windowStart, windowEnd, rocket_Id, launchPad_Id, " +
+                    "launchServiceProvider) VALUES (?, ?, ?, ?, ?, ?)";
 
             PreparedStatement prepStmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             prepStmt.setString(1, launch.getName());
             prepStmt.setTimestamp(2, Timestamp.from(launch.getWindowStart()));
             prepStmt.setTimestamp(3, Timestamp.from(launch.getWindowEnd()));
-            prepStmt.setInt(4, rocketId);
-            prepStmt.setInt(5, launchPadId);
+            prepStmt.setInt(4, launch.getRocket().getId());
+            prepStmt.setInt(5, launch.getLaunchPad().getId());
             prepStmt.setString(6, launch.getLaunchServiceProvider());
             prepStmt.executeUpdate();
 
@@ -206,6 +215,7 @@ public class LaunchDAOImpl implements LaunchDAO {
             if (generatedKeys.next()) {
                 launchId = generatedKeys.getInt(1);
             }
+            prepStmt.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
@@ -225,16 +235,17 @@ public class LaunchDAOImpl implements LaunchDAO {
         int result = 0;
 
         try {
-            String query = "UPDATE launch SET windowStart = ?, windowEnd = ?, rocket_Id = ?, launchPad_id = ?, " +
-                    "launchServiceProvider = ? WHERE name = ?";
+            String query = "UPDATE launch SET `name` = ?, windowStart = ?, windowEnd = ?, rocket_Id = ?, launchPad_id = ?, " +
+                    "launchServiceProvider = ? WHERE id = ?";
 
             PreparedStatement prepStmt = connection.prepareStatement(query);
-            prepStmt.setTimestamp(1, Timestamp.from(launch.getWindowStart()));
-            prepStmt.setTimestamp(2, Timestamp.from(launch.getWindowEnd()));
-            prepStmt.setInt(3, launch.getRocket().getId());
-            prepStmt.setInt(4, launch.getLaunchPad().getId());
-            prepStmt.setString(5, launch.getLaunchServiceProvider());
-            prepStmt.setString(6, launch.getName());
+            prepStmt.setString(1, launch.getName());
+            prepStmt.setTimestamp(2, Timestamp.from(launch.getWindowStart()));
+            prepStmt.setTimestamp(3, Timestamp.from(launch.getWindowEnd()));
+            prepStmt.setInt(4, launch.getRocket().getId());
+            prepStmt.setInt(5, launch.getLaunchPad().getId());
+            prepStmt.setString(6, launch.getLaunchServiceProvider());
+            prepStmt.setInt(7, launch.getId());
 
             result += prepStmt.executeUpdate();
         } catch (SQLException ex) {
@@ -256,7 +267,7 @@ public class LaunchDAOImpl implements LaunchDAO {
         int result = 0;
 
         try {
-            String updateMissionQuery = "UPDATE mission SET launch_id = ? WHERE launch = ?";
+            String updateMissionQuery = "UPDATE mission SET launch_id = ? WHERE launch_id = ?";
 
             PreparedStatement prepStmt = connection.prepareStatement(updateMissionQuery);
             prepStmt.setInt(1, 0);
@@ -288,10 +299,11 @@ public class LaunchDAOImpl implements LaunchDAO {
         launch.setName(result.getString(2));
         launch.setWindowStart(result.getTimestamp(3).toInstant());
         launch.setWindowEnd(result.getTimestamp(4).toInstant());
-        Rocket rocket = rocketDAO.getRocketById(result.getInt(5));
+        LaunchPad launchPad = launchPadDAO.getLaunchPadById(result.getInt(5));
+        launch.setLaunchPad(launchPad);
+        launch.setLaunchServiceProvider(result.getString(6));
+        Rocket rocket = rocketDAO.getRocketById(result.getInt(7));
         launch.setRocket(rocket);
-        LaunchPad launchPad = launchPadDAO.getLaunchPadById(result.getInt(6));
-        launch.setLaunchServiceProvider(result.getString(7));
 
         return launch;
     }

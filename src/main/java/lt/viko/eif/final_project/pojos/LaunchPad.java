@@ -1,6 +1,7 @@
 package lt.viko.eif.final_project.pojos;
 
 import javax.ws.rs.core.Link;
+import java.math.BigDecimal;
 import java.util.List;
 
 public class LaunchPad {
@@ -8,11 +9,14 @@ public class LaunchPad {
     private int Id;
     private String name;
     private String locationName;
-    private double latitude;
-    private double longitude;
+    private BigDecimal latitude;
+    private BigDecimal longitude;
     private String wikiURL;
     private String mapsURL;
     private List<Link> links;
+
+    public LaunchPad() {
+    }
 
     public int getId() {
         return Id;
@@ -38,19 +42,19 @@ public class LaunchPad {
         this.locationName = locationName;
     }
 
-    public double getLatitude() {
+    public BigDecimal getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(BigDecimal latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public BigDecimal getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(BigDecimal longitude) {
         this.longitude = longitude;
     }
 
@@ -68,6 +72,10 @@ public class LaunchPad {
 
     public void setMapsURL(String mapsURL) {
         this.mapsURL = mapsURL;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
     }
 
     public void addLink(String url, String rel) {

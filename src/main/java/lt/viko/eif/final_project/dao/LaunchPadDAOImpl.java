@@ -1,6 +1,8 @@
 package lt.viko.eif.final_project.dao;
 
 import lt.viko.eif.final_project.pojos.LaunchPad;
+
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -106,17 +108,18 @@ public class LaunchPadDAOImpl implements  LaunchPadDAO {
      * @param launchPad launch pad object, which will be added
      * @return id of added launch pad
      */
-    @java.lang.Override
+    @Override
     public int addLaunchPad(LaunchPad launchPad) {
         int launchPadId = 0;
         try {
-            String query = "INSERT IGNORE INTO launchPad (name, locationName, latidude,longitude, wikiURL, mapsURL) VALUES (?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO launchpad (name, locationName, latitude, longitude, wikiURL, mapsURL) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)";
 
             PreparedStatement prepStmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             prepStmt.setString(1, launchPad.getName());
             prepStmt.setString(2, launchPad.getLocationName());
-            prepStmt.setDouble(3, launchPad.getLatitude());
-            prepStmt.setDouble(4, launchPad.getLongitude());
+            prepStmt.setBigDecimal(3, launchPad.getLatitude());
+            prepStmt.setBigDecimal(4, launchPad.getLongitude());
             prepStmt.setString(5, launchPad.getWikiURL());
             prepStmt.setString(6, launchPad.getMapsURL());
             prepStmt.executeUpdate();
@@ -170,8 +173,8 @@ public class LaunchPadDAOImpl implements  LaunchPadDAO {
         launchPad.setId(result.getInt(1));
         launchPad.setName(result.getString(2));
         launchPad.setLocationName(result.getString(3));
-        launchPad.setLatitude(result.getDouble(4));
-        launchPad.setLongitude(result.getDouble(5));
+        launchPad.setLatitude(result.getBigDecimal(4));
+        launchPad.setLongitude(result.getBigDecimal(5));
         launchPad.setWikiURL(result.getString(6));
         launchPad.setMapsURL(result.getString(7));
 

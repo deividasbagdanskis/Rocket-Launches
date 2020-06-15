@@ -16,8 +16,12 @@ public class Rocket {
     private int numberOfStages;
     private int payloadToLEO;
     private int payloadToGTO;
+    private String wikiURL;
     private List<Stage> stages = new ArrayList<>();
     private List<Link> links = new ArrayList<>();
+
+    public Rocket() {
+    }
 
     public int getId() {
         return Id;
@@ -117,6 +121,18 @@ public class Rocket {
 
     public List<Link> getLinks() {
         return links;
+    }
+
+    public String getWikiURL() {
+        return wikiURL;
+    }
+
+    public void setWikiURL(String wikiURL) {
+        this.wikiURL = wikiURL;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
     }
 
     public void addLink(String url, String rel) {
