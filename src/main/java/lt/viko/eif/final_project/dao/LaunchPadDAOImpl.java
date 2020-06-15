@@ -106,13 +106,13 @@ public class LaunchPadDAOImpl implements  LaunchPadDAO {
      * @param launchPad launch pad object, which will be added
      * @return id of added launch pad
      */
-    @java.lang.Override
+    @Override
     public int addLaunchPad(LaunchPad launchPad) {
         int launchPadId = 0;
         try {
-            String query = "INSERT IGNORE INTO launchPad (name, locationName, latidude,longitude, wikiURL, mapsURL) VALUES (?, ?, ?, ?, ?, ?)";
+            String query = "INSERT IGNORE INTO launchPad (name, locationName, latitude,longitude, wikiURL, mapsURL) VALUES (?, ?, ?, ?, ?, ?)";
 
-            PreparedStatement prepStmt = connection.prepareStatement(query);
+            PreparedStatement prepStmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             prepStmt.setString(1, launchPad.getName());
             prepStmt.setString(2, launchPad.getLocationName());
             prepStmt.setDouble(3, launchPad.getLatitude());
@@ -139,7 +139,7 @@ public class LaunchPadDAOImpl implements  LaunchPadDAO {
         int result = 0;
 
         try {
-            String updateLaunchQuery = "UPDATE launch SET launchPad_id = ? WHERE launchPad = ?";
+            String updateLaunchQuery = "UPDATE launch SET launchPad_id = ? WHERE launchPad_id = ?";
 
             PreparedStatement prepStmt = connection.prepareStatement(updateLaunchQuery);
             prepStmt.setInt(1, 0);

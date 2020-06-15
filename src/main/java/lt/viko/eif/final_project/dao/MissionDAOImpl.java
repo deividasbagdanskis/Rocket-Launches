@@ -18,6 +18,7 @@ public class MissionDAOImpl implements  MissionDAO {
     private LaunchDAO launchDAO = new LaunchDAOImpl();
     private CustomerDAO customerDAO = new CustomerDAOImpl();
     private PayloadDAO payloadDAO = new PayloadDAOImpl();
+    private RocketDAO rocketDAO = new RocketDAOImpl();
 
     /**
      * Creates new MissionDAOImpl with database connection.
@@ -56,7 +57,7 @@ public class MissionDAOImpl implements  MissionDAO {
         try {
             String query = "SELECT * FROM mission WHERE name LIKE CONCAT('%', ?, '%')";
 
-            PreparedStatement prepStmt = connection.prepareStatement(query);
+            PreparedStatement prepStmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             prepStmt.setString(1, name);
 
             ResultSet result = prepStmt.executeQuery();
@@ -98,12 +99,19 @@ public class MissionDAOImpl implements  MissionDAO {
     public boolean addMission(Mission mission) {
         int result = 0;
         try {
-            int launchId = launchDAO.addLaunch(mission.getLaunch());
-            int customerId = customerDAO.addCustomer(mission.getCustomer());
-
+            //int launchId = launchDAO.addLaunch(mission.getLaunch());
+            //int customerId = customerDAO.addCustomer(mission.getCustomer());
+            int launchId = mission.getLaunch().getId();
+            int customerId = mission.getCustomer().getId();
+            if(launchDAO.getLaunchesByName(mission.getLaunch().getName()).size() == 0){
+                launchId = launchDAO.addLaunch(mission.getLaunch());
+            }
+            if(customerDAO.getCustomerById(mission.getCustomer().getId()) == null) {
+               customerId = customerDAO.addCustomer(mission.getCustomer());
+            }
             String query = "INSERT IGNORE INTO mission (name, description, launch_id, customer_id VALUES (?, ?, ?, ?)";
 
-            PreparedStatement prepStmt = connection.prepareStatement(query);
+            PreparedStatement prepStmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             prepStmt.setString(1, mission.getName());
             prepStmt.setString(2, mission.getDescription());
             prepStmt.setInt(3, launchId);

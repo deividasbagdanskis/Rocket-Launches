@@ -150,7 +150,7 @@ public class LaunchDAOImpl implements LaunchDAO {
         try {
             String query = "SELECT * FROM launch WHERE DATE(windowStart) > ? AND DATE(windowStart) < ?";
 
-            PreparedStatement prepStmt = connection.prepareStatement(query);
+            PreparedStatement prepStmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             prepStmt.setString(1, startDate);
             prepStmt.setString(2, endDate);
 
@@ -164,7 +164,7 @@ public class LaunchDAOImpl implements LaunchDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return launches;
     }
 
     /**
@@ -179,6 +179,8 @@ public class LaunchDAOImpl implements LaunchDAO {
         int launchPadId = 0;
 
         try {
+            rocketId = launch.getRocket().getId();
+            launchPadId = launch.getLaunchPad().getId();
             if (rocketDAO.getRocketsByName(launch.getRocket().getName()).size() == 0) {
                 rocketId = rocketDAO.addRocket(launch.getRocket());
             }
@@ -187,10 +189,10 @@ public class LaunchDAOImpl implements LaunchDAO {
                 launchPadId = launchPadDAO.addLaunchPad(launch.getLaunchPad());
             }
 
-            String query = "INSERT IGNORE INTO launch (name, windowStart, windowEnd, rocketId, launchPad_Id, " +
-                    "launchServiceProvider) VALUES (?, ?, ?, ?, ?, ?))";
+            String query = "INSERT IGNORE INTO launch (name, windowStart, windowEnd, rocket_Id, launchPad_Id, " +
+                    "launchServiceProvider) VALUES (?, ?, ?, ?, ?, ?)";
 
-            PreparedStatement prepStmt = connection.prepareStatement(query);
+            PreparedStatement prepStmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             prepStmt.setString(1, launch.getName());
             prepStmt.setTimestamp(2, Timestamp.from(launch.getWindowStart()));
             prepStmt.setTimestamp(3, Timestamp.from(launch.getWindowEnd()));
@@ -226,7 +228,7 @@ public class LaunchDAOImpl implements LaunchDAO {
             String query = "UPDATE launch SET windowStart = ?, windowEnd = ?, rocket_Id = ?, launchPad_id = ?, " +
                     "launchServiceProvider = ? WHERE name = ?";
 
-            PreparedStatement prepStmt = connection.prepareStatement(query);
+            PreparedStatement prepStmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             prepStmt.setTimestamp(1, Timestamp.from(launch.getWindowStart()));
             prepStmt.setTimestamp(2, Timestamp.from(launch.getWindowEnd()));
             prepStmt.setInt(3, launch.getRocket().getId());
@@ -254,7 +256,7 @@ public class LaunchDAOImpl implements LaunchDAO {
         int result = 0;
 
         try {
-            String updateMissionQuery = "UPDATE mission SET launch_id = ? WHERE launch = ?";
+            String updateMissionQuery = "UPDATE mission SET launch_id = ? WHERE launch_id = ?";
 
             PreparedStatement prepStmt = connection.prepareStatement(updateMissionQuery);
             prepStmt.setInt(1, 0);
