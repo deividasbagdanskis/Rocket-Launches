@@ -52,7 +52,7 @@ public class LaunchLibraryClientImpl implements LaunchLibraryClient {
         for (int i = 0; i < array.length(); i++) {
             Rocket rocket = new Rocket();
             rocket.setName(array.getJSONObject(i).getString("name"));
-            rocket.addLink(array.getJSONObject(i).getString("wikiURL"), "wikiURL");
+            rocket.setWikiURL(array.getJSONObject(i).getString("wikiURL"));
             rockets.add(rocket);
         }
         return rockets;

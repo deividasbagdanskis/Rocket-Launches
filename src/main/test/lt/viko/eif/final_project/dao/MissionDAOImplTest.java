@@ -36,6 +36,8 @@ class MissionDAOImplTest {
         customerDAO = new CustomerDAOImpl();
         launchDAO = new LaunchDAOImpl();
         payloadDAO = new PayloadDAOImpl();
+        launchPadDAO = new LaunchPadDAOImpl();
+        rocketDAO = new RocketDAOImpl();
 
         newPayloadDOA.setDescription("Just Testing Description");
         newPayloadDOA.setTotalAmount(1);
@@ -47,6 +49,14 @@ class MissionDAOImplTest {
         testMission.setLaunch(launchDAO.getLaunchById(1));
         testMission.setCustomer(customerDAO.getCustomerById(1));
         testMission.setPayloads(payloads);
+        newLaunch.setName("testLaunch");
+        newLaunch.setLaunchPad(launchPadDAO.getLaunchPadById(6));
+        newLaunch.setWindowStart(Instant.parse("2020-06-12T04:15:13Z"));
+        newLaunch.setWindowEnd(Instant.parse("2020-06-12T04:16:13Z"));
+        newLaunch.setRocket(rocketDAO.getRocketById(1));
+        testMission.setLaunch(newLaunch);
+        testCustomer.setName("NASA");
+        testMission.setCustomer(testCustomer);
     }
 
     @AfterEach
@@ -66,7 +76,7 @@ class MissionDAOImplTest {
 
     @Test
     void getMissionsByName(){
-        //missionDAO.addMission(testMission);
+        missionDAO.addMission(testMission);
         missions = missionDAO.getMissionsByName("MissionTest");
         for(Mission var : missions)
         {
@@ -77,7 +87,7 @@ class MissionDAOImplTest {
 
     @Test
     void getMissionById(){
-        //missionDAO.addMission(testMission);
+        missionDAO.addMission(testMission);
         missions = missionDAO.getMissionsByName("MissionTest");
         for(Mission var : missions)
         {

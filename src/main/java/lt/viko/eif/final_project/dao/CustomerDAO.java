@@ -14,6 +14,7 @@ public interface CustomerDAO {
      */
     Customer getCustomerById(int id);
 
+    Customer getCustomerByName(String name);
 
     /**
      * Adds a customer to the database.

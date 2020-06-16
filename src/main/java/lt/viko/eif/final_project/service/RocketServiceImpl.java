@@ -1,9 +1,14 @@
 package lt.viko.eif.final_project.service;
 
 
+import com.jcabi.aspects.Cacheable;
+import lt.viko.eif.final_project.apiClient.LaunchLibraryClient;
+import lt.viko.eif.final_project.apiClient.LaunchLibraryClientImpl;
 import lt.viko.eif.final_project.dao.RocketDAO;
 import lt.viko.eif.final_project.dao.RocketDAOImpl;
+import lt.viko.eif.final_project.pojos.Launch;
 import lt.viko.eif.final_project.pojos.Rocket;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.io.UnsupportedEncodingException;
@@ -12,6 +17,7 @@ import java.net.URLDecoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Edvinas Jakštas
@@ -21,14 +27,16 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class RocketServiceImpl implements RocketService {
     private RocketDAO rocketDAO = new RocketDAOImpl();
+    private LaunchLibraryClient launchLibraryClient = new LaunchLibraryClientImpl();
 
     /**
-     *   Gets all rockets in the repository
+     * Gets all rockets in the repository
      * @param uriInfo information about URI
      * @return status code with response ody
      */
-    @Get
+    @GET
     @Override
+    @Cacheable(lifetime = 60, unit = TimeUnit.SECONDS)
     public Response getAllRockets(@Context UriInfo uriInfo) {
         List<Rocket> rockets = rocketDAO.getAllRockets();
 
@@ -43,47 +51,34 @@ public class RocketServiceImpl implements RocketService {
         CacheControl cacheControl = new CacheControl();
         cacheControl.setMaxAge(60);
 
-
         return Response.ok(rockets).cacheControl(cacheControl).build();
     }
 
     /**
      * Gets a rocket with particular name from the database.
-     *
-     * @param name    name of a searchable mission
+     * @param name name of a searchable mission
      * @param uriInfo information about URI
      * @return status code with response body
      */
-
-
-    @Get
+    @GET
+    @Cacheable(lifetime = 60, unit = TimeUnit.SECONDS)
     @Override
     @Path("{name}")
     public Response getRocketsByName(@PathParam(value = "name") String name, @Context UriInfo uriInfo)
             throws UnsupportedEncodingException {
         List<Rocket> rockets = rocketDAO.getRocketsByName(URLDecoder.decode(name, "UTF-8"));
 
-        CacheControl cacheControl = new CacheControl();
-        cacheControl.setMaxAge(60);
+        if (rockets.size() == 0) {
+            rockets = launchLibraryClient.getRocketsByName(name);
 
-        return Response.ok(rockets).cacheControl(cacheControl).build();
-    }
+            for (Rocket rocket : rockets) {
+                rocketDAO.addRocket(rocket);
+            }
+        }
 
-
-    /**
-     *
-     * Gets a rocket with particular id from the database.
-     * @param id
-     * @param uriInfo
-     * @return
-     * @throws UnsupportedEncodingException
-     */
-
-    @Override
-    @Path("{id}")
-    public Response getRocketById(@PathParam(value = "id") int id, @Context UriInfo uriInfo)
-            throws UnsupportedEncodingException {
-        List<Rocket> rockets = rocketDAO.getRocketById(URLDecoder.decode(id, "UTF-8"));
+        for (Rocket rocket : rockets) {
+            rocket.addLink(getUriForSelf(uriInfo, rocket.getName()), "self");
+        }
 
         CacheControl cacheControl = new CacheControl();
         cacheControl.setMaxAge(60);
@@ -91,9 +86,8 @@ public class RocketServiceImpl implements RocketService {
         return Response.ok(rockets).cacheControl(cacheControl).build();
     }
 
-
     /**
-     *
+     * Adds a rocket to the database.
      * @param rocket rocket object, which will be added
      * @param uriInfo information about URI
      * @return status code with response body
@@ -101,8 +95,10 @@ public class RocketServiceImpl implements RocketService {
     @POST
     @Override
     public Response addRocket(Rocket rocket, @Context UriInfo uriInfo) {
-        if(rocketDAO.addRocket(rocket))
+        if(rocketDAO.addRocket(rocket) != 0) {
+            rocket.addLink(getUriForSelf(uriInfo, rocket.getName()), "self");
             return Response.ok(rocket).build();
+        }
         return Response.serverError().build();
     }
 
@@ -114,12 +110,14 @@ public class RocketServiceImpl implements RocketService {
      */
     @PUT
     @Override
-    public Response updateRocket(Rocket rocket, @Context UriInfo uriInfo) {
-        if(rocketDAO.updateRocket(rocket))
+    @Path("{id}")
+    public Response updateRocket(@PathParam("id") int id, Rocket rocket, @Context UriInfo uriInfo) {
+        if(rocketDAO.updateRocket(rocket)) {
+            rocket.addLink(getUriForSelf(uriInfo, rocket.getName()), "self");
             return Response.ok(rocket).build();
+        }
         return Response.serverError().build();
     }
-
 
     /**
      * Deletes a specified rocket from the database.
@@ -127,13 +125,16 @@ public class RocketServiceImpl implements RocketService {
      * @param id id of a rocket, which will be deleted
      * @return status code with response body
      */
-    @Delete
+    @DELETE
     @Path("{id}")
     @Override
-    public void deleteRocket(int id) {
+    public Response deleteRocket(@PathParam("id")int id, @Context UriInfo uriInfo) {
         if (rocketDAO.getRocketById(id) != null) {
-            rocketDAO.deleteRocket(id);
+            if (rocketDAO.deleteRocket(id)) {
+                return Response.noContent().build();
+            }
         }
+        return Response.serverError().build();
     }
 
 
@@ -141,7 +142,7 @@ public class RocketServiceImpl implements RocketService {
         URI uri = null;
         try {
             uri = uriInfo.getBaseUriBuilder().path(this.getClass()).path(this.getClass(), "getRocketsByName")
-                    .queryParam("name", URLDecoder.decode(name, "UTF-8")).build();
+                    .resolveTemplate("name", URLDecoder.decode(name, "UTF-8")).build();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

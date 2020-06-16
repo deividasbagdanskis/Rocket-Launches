@@ -18,7 +18,6 @@ public class MissionDAOImpl implements  MissionDAO {
     private LaunchDAO launchDAO = new LaunchDAOImpl();
     private CustomerDAO customerDAO = new CustomerDAOImpl();
     private PayloadDAO payloadDAO = new PayloadDAOImpl();
-    private RocketDAO rocketDAO = new RocketDAOImpl();
 
     /**
      * Creates new MissionDAOImpl with database connection.
@@ -55,7 +54,7 @@ public class MissionDAOImpl implements  MissionDAO {
          List<Mission> missions = new ArrayList<>();
 
         try {
-            String query = "SELECT * FROM mission WHERE name LIKE CONCAT('%', ?, '%')";
+            String query = "SELECT * FROM mission WHERE `name` LIKE CONCAT('%', ?, '%')";
 
             PreparedStatement prepStmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             prepStmt.setString(1, name);
@@ -103,13 +102,20 @@ public class MissionDAOImpl implements  MissionDAO {
             //int customerId = customerDAO.addCustomer(mission.getCustomer());
             int launchId = mission.getLaunch().getId();
             int customerId = mission.getCustomer().getId();
+
             if(launchDAO.getLaunchesByName(mission.getLaunch().getName()).size() == 0){
                 launchId = launchDAO.addLaunch(mission.getLaunch());
+            } else {
+                launchId = launchDAO.getLaunchesByName(mission.getLaunch().getName()).get(0).getId();
             }
-            if(customerDAO.getCustomerById(mission.getCustomer().getId()) == null) {
-               customerId = customerDAO.addCustomer(mission.getCustomer());
+
+            if(customerDAO.getCustomerByName(mission.getCustomer().getName()) == null) {
+                customerId = customerDAO.addCustomer(mission.getCustomer());
+            } else {
+                customerId = customerDAO.getCustomerByName(mission.getCustomer().getName()).getId();
             }
-            String query = "INSERT IGNORE INTO mission (name, description, launch_id, customer_id VALUES (?, ?, ?, ?)";
+
+            String query = "INSERT IGNORE INTO mission (`name`, description, launch_id, customer_id) VALUES (?, ?, ?, ?)";
 
             PreparedStatement prepStmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             prepStmt.setString(1, mission.getName());
@@ -145,7 +151,7 @@ public class MissionDAOImpl implements  MissionDAO {
     public boolean updateMission(Mission mission) {
         int result = 0;
         try {
-            String query = "UPDATE mission SET description = ?, launch_id = ?, customer_id = ? WHERE name = ?";
+            String query = "UPDATE mission SET description = ?, launch_id = ?, customer_id = ? WHERE `name` = ?";
 
             PreparedStatement prepStmt = connection.prepareStatement(query);
             prepStmt.setString(1, mission.getDescription());
@@ -174,7 +180,7 @@ public class MissionDAOImpl implements  MissionDAO {
             Mission mission = getMissionsByName(name).get(0);
             payloadDAO.deletePayloadsByMission(mission.getId());
 
-            String deleteMissionQuery = "DELETE FROM mission WHERE name = ?";
+            String deleteMissionQuery = "DELETE FROM mission WHERE `name` = ?";
 
             PreparedStatement preparedStatement = connection.prepareStatement(deleteMissionQuery);
             preparedStatement.setString(1, name);

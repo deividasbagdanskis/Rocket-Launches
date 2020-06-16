@@ -139,14 +139,4 @@ public class Rocket {
             Link link = Link.fromUri(url).rel(rel).build();
             this.links.add(link);
     }
-
-    public String findLink(String rel) {
-        for (Link link : this.links) {
-            if (link.getRel().equals(rel)) {
-                return link.getUri().toString();
-            }
-        }
-
-        return null;
-    }
 }

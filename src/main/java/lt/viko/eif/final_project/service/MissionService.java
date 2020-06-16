@@ -6,18 +6,17 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.io.UnsupportedEncodingException;
 
 /**
  * @author Tomas Jokubauskas
  */
-@Path("missions")
 public interface MissionService {
     /**
      * Gets all missions in the repository.
      * @param uriInfo information about URI
      * @return status code with response body
      */
-    @GET
     Response getAllMission(@Context UriInfo uriInfo);
 
     /**
@@ -26,9 +25,8 @@ public interface MissionService {
      * @param uriInfo information about URI
      * @return status code with response body
      */
-    @GET
     @Path("{name}")
-    Response getMissionsByName(@PathParam("name") String name, @Context UriInfo uriInfo);
+    Response getMissionsByName(@PathParam("name") String name, @Context UriInfo uriInfo) throws UnsupportedEncodingException;
 
     /**
      * Adds a mission to the database and to the repository.
@@ -36,7 +34,6 @@ public interface MissionService {
      * @param uriInfo information about URI
      * @return status code with response body
      */
-    @POST
     Response addMission(Mission mission, @Context UriInfo uriInfo);
     /**
      * Updates a mission with a matching name in the database.
@@ -44,7 +41,6 @@ public interface MissionService {
      * @param uriInfo information about URI
      * @return status code with response body
      */
-    @PUT
     Response updateMission(Mission mission, @Context UriInfo uriInfo);
 
     /**
@@ -53,7 +49,6 @@ public interface MissionService {
      * @param uriInfo information about URI
      * @return status code with response body
      */
-    @DELETE
     @Path("{name}")
     Response deleteMission(@PathParam("name") String name, @Context UriInfo uriInfo);
 }

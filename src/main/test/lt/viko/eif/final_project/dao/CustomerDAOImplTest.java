@@ -32,7 +32,10 @@ class CustomerDAOImplTest {
     @Test
     void getCustomerById() {
         String customerName = "Elon Musk";
-        assertEquals(customerName, customerDAO.getCustomerById(1).getName());
+        testCustomer.setName(customerName);
+        int id = customerDAO.addCustomer(testCustomer);
+        assertEquals(customerName, customerDAO.getCustomerById(id).getName());
+        customerDAO.deleteCustomer(id);
     }
 
     @Test

@@ -88,14 +88,4 @@ public class Launch {
     public List<Link> getLinks() {
         return links;
     }
-
-    public String findLink(String rel) {
-        for (Link link : this.links) {
-            if (link.getRel().equals(rel)) {
-                return link.getUri().toString();
-            }
-        }
-
-        return null;
-    }
 }

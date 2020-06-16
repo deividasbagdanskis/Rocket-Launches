@@ -18,7 +18,8 @@ public class ApplicationConfig extends Application {
 
         h.add(LaunchServiceImpl.class);
         h.add(MissionServiceImpl.class);
-
+        h.add(LaunchPadServiceImpl.class);
+        h.add(RocketServiceImpl.class);
 
         return h;
     }

@@ -162,8 +162,8 @@ public class RocketDAOImpl implements RocketDAO {
     public boolean updateRocket(Rocket rocket) {
         int result = 0;
         try {
-            String query = "UPDATE rocket SET type = ?, manufacturer = ?, countryOfOrigin = ?, height = ?, diameter = ?,"
-                    + " mass = ?, numberOfStages = ?, payloadToLEO = ?, payloadToGTO = ?, wikiURL = ? WHERE 'name' = ?";
+            String query = "UPDATE rocket SET `type` = ?, manufacturer = ?, countryOfOrigin = ?, height = ?, diameter = ?,"
+                    + " mass = ?, numberOfStages = ?, payloadToLEO = ?, payloadToGTO = ?, wikiURL = ? WHERE `name` = ?";
 
             PreparedStatement prepStmt = connection.prepareStatement(query);
             prepStmt.setString(1, rocket.getType());
@@ -175,7 +175,7 @@ public class RocketDAOImpl implements RocketDAO {
             prepStmt.setInt(7, rocket.getNumberOfStages());
             prepStmt.setInt(8, rocket.getPayloadToLEO());
             prepStmt.setInt(9, rocket.getPayloadToGTO());
-            prepStmt.setString(10, rocket.findLink("wikiURL"));
+            prepStmt.setString(10, rocket.getWikiURL());
             prepStmt.setString(11, rocket.getName());
             result += prepStmt.executeUpdate();
 

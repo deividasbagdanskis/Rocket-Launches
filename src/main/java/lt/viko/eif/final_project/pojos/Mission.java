@@ -1,5 +1,7 @@
 package lt.viko.eif.final_project.pojos;
 
+import javax.ws.rs.core.Link;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Mission {
@@ -9,6 +11,7 @@ public class Mission {
     private Launch launch;
     private Customer customer;
     private List<Payload> payloads;
+    private List<Link> links = new ArrayList<>();
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
@@ -61,5 +64,18 @@ public class Mission {
 
     public void addPayload(Payload payload) {
         payloads.add(payload);
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
+    }
+
+    public void addLink(String url, String rel) {
+        Link link = Link.fromUri(url).rel(rel).build();
+        this.links.add(link);
+    }
+
+    public List<Link> getLinks() {
+        return links;
     }
 }

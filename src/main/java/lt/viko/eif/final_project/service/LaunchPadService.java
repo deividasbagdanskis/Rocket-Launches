@@ -7,7 +7,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.io.UnsupportedEncodingException;
 
-@Path("launchPads")
 public interface LaunchPadService {
 
     /***
@@ -15,9 +14,7 @@ public interface LaunchPadService {
      * @param uriInfo information about URI
      * @return status code with response body
      */
-    @GET
     Response getAllLaunchPads(@Context UriInfo uriInfo);
-
 
     /**
      * Gets launch pads with particular name from the database.
@@ -25,7 +22,6 @@ public interface LaunchPadService {
      * @param uriInfo uriInfo information about URI
      * @return status code with response body
      */
-    @GET
     @Path("{name}")
     Response getLaunchPadByName(@PathParam(value = "name") String name, @Context UriInfo uriInfo)
             throws UnsupportedEncodingException;
@@ -36,16 +32,12 @@ public interface LaunchPadService {
      * @param uriInfo uriInfo uriInfo information about URI
      * @return status code with response body
      */
-    @POST
     Response addLaunchPad(LaunchPad launchPad, @Context UriInfo uriInfo);
-
-
 
     /**
      * Deletes a specified launch pad from the database.
      * @param id id of a launch pad, which will be deleted
      */
-    @DELETE
     @Path("{id}")
-    void deleteLaunchPad(@PathParam("id") int id);
+    Response deleteLaunchPad(@PathParam("id") int id);
 }

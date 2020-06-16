@@ -1,5 +1,6 @@
 package lt.viko.eif.final_project.service;
 
+import com.jcabi.aspects.Cacheable;
 import lt.viko.eif.final_project.apiClient.LaunchLibraryClient;
 import lt.viko.eif.final_project.apiClient.LaunchLibraryClientImpl;
 import lt.viko.eif.final_project.dao.LaunchDAO;
@@ -15,6 +16,7 @@ import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Deividas Bagdanskis
@@ -28,6 +30,7 @@ public class LaunchServiceImpl implements LaunchService {
 
     @Override
     @GET
+    @Cacheable(lifetime = 60, unit = TimeUnit.SECONDS)
     public Response getAllLaunches(@Context UriInfo uriInfo) {
         List<Launch> launches = launchDAO.getAllLaunches();
 
@@ -47,6 +50,7 @@ public class LaunchServiceImpl implements LaunchService {
 
     @Override
     @GET
+    @Cacheable(lifetime = 60, unit = TimeUnit.SECONDS)
     @Path("{name}")
     public Response getLaunchesByName(@PathParam(value = "name") String name, @Context UriInfo uriInfo)
             throws UnsupportedEncodingException {
@@ -72,6 +76,7 @@ public class LaunchServiceImpl implements LaunchService {
 
     @GET
     @Override
+    @Cacheable(lifetime = 60, unit = TimeUnit.SECONDS)
     @Path("next/{amount}")
     public Response getUpcomingLaunches(@PathParam(value = "amount") int amount, @Context UriInfo uriInfo) {
         List<Launch> launches = launchDAO.getUpcomingLaunches(amount);
@@ -96,6 +101,7 @@ public class LaunchServiceImpl implements LaunchService {
 
     @GET
     @Override
+    @Cacheable(lifetime = 60, unit = TimeUnit.SECONDS)
     @Path("{startDate}/{endDate}")
     public Response getLaunchesByDates(@PathParam("startDate") String startDate, @PathParam("endDate") String endDate,
                                        @Context UriInfo uriInfo) {

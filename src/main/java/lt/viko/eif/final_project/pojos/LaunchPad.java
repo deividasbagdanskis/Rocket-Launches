@@ -2,6 +2,7 @@ package lt.viko.eif.final_project.pojos;
 
 import javax.ws.rs.core.Link;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LaunchPad {
@@ -13,7 +14,7 @@ public class LaunchPad {
     private BigDecimal longitude;
     private String wikiURL;
     private String mapsURL;
-    private List<Link> links;
+    private List<Link> links = new ArrayList<>();
 
     public LaunchPad() {
     }
@@ -85,15 +86,5 @@ public class LaunchPad {
 
     public List<Link> getLinks() {
         return links;
-    }
-
-    public String findLink(String rel) {
-        for (Link link : this.links) {
-            if (link.getRel().equals(rel)) {
-                return link.getUri().toString();
-            }
-        }
-
-        return null;
     }
 }

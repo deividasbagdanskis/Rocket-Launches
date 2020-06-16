@@ -58,7 +58,7 @@ public class LaunchPadDAOImpl implements  LaunchPadDAO {
         LaunchPad launchPad = null;
 
         try {
-            String query = "SELECT * FROM launchPad WHERE Id = ? LIMIT 1";
+            String query = "SELECT * FROM launchpad WHERE id = ? LIMIT 1";
 
             PreparedStatement prepStmt = connection.prepareStatement(query);
             prepStmt.setInt(1, id);
@@ -86,7 +86,7 @@ public class LaunchPadDAOImpl implements  LaunchPadDAO {
         LaunchPad launchPad = null;
 
         try {
-            String query = "SELECT * FROM launchPad WHERE name = ? LIMIT 1";
+            String query = "SELECT * FROM launchPad WHERE `name` = ? LIMIT 1";
 
             PreparedStatement prepStmt = connection.prepareStatement(query);
             prepStmt.setString(1, name);

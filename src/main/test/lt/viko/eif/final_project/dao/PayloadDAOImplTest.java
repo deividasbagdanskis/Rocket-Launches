@@ -83,7 +83,7 @@ class PayloadDAOImplTest {
         for( Mission var : missions)
         {
             payloadDAO.addPayload(newPayloadDOA);
-            assertEquals(true, payloadDAO.deletePayloadsByMission(payloadDAO.deletePayloadsByMission(var.getId())));
+            assertEquals(true, payloadDAO.deletePayloadsByMission(var.getId()));
             missionDAO.deleteMission("MissionFromPayload");
         }
     }

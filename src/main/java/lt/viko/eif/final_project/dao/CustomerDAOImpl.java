@@ -21,6 +21,27 @@ public class CustomerDAOImpl implements  CustomerDAO {
     }
 
     @Override
+    public Customer getCustomerByName(String name) {
+        Customer customer = null;
+
+        try {
+            String query = "SELECT * FROM customer WHERE name = ? LIMIT 1";
+
+            PreparedStatement prepStmt = connection.prepareStatement(query);
+            prepStmt.setString(1, name);
+
+            ResultSet result = prepStmt.executeQuery();
+
+            while (result.next()) {
+                customer = readCustomer(result);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customer;
+    }
+
+    @Override
     public Customer getCustomerById(int id) {
         Customer customer = null;
 

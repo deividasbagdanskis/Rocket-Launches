@@ -4,6 +4,9 @@ import lt.viko.eif.final_project.pojos.LaunchPad;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class LaunchPadDAOImplTest {
@@ -16,8 +19,8 @@ class LaunchPadDAOImplTest {
         launchPadDAO = new LaunchPadDAOImpl();
         testLaunchPad.setName("TestName");
         testLaunchPad.setLocationName("TestLocation");
-        testLaunchPad.setLatitude(58.73430000);
-        testLaunchPad.setLongitude(93.82030000);
+        testLaunchPad.setLatitude(new BigDecimal(58.73430000));
+        testLaunchPad.setLongitude(new BigDecimal(93.82030000));
         testLaunchPad.setMapsURL("testURL");
         testLaunchPad.setWikiURL("testURL");
     }
