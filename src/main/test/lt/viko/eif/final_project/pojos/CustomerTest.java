@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Tomas Jokubauskas
+ */
 class CustomerTest {
 
     private Customer customer;
