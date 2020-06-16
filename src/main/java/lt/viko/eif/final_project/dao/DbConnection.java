@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
+ * Establishes connection with a database.
  * @author Deividas Bagdanskis
  */
 public class DbConnection {
@@ -16,6 +17,9 @@ public class DbConnection {
             "&useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false" +
             "&serverTimezone=UTC";
 
+    /**
+     * Creates connection with a database.
+     */
     public DbConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -25,6 +29,10 @@ public class DbConnection {
         }
     }
 
+    /**
+     * Gets connection with a database.
+     * @return connection with a database
+     */
     public Connection getConnection() {
         return connection;
     }

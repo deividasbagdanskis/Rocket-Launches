@@ -23,7 +23,7 @@ public class RocketDAOImpl implements RocketDAO {
     }
 
     /**
-     * Fetches all the rockets in the database.
+     * Fetches all rockets in the database.
      * @return list of rockets
      */
     @Override
@@ -225,7 +225,7 @@ public class RocketDAOImpl implements RocketDAO {
      * Reads records from rocket table.
      * @param result ResultSet of a query
      * @return rocket object
-     * @throws SQLException
+     * @throws SQLException when reading rows
      */
     private Rocket readRocket(ResultSet result) throws SQLException {
         Rocket rocket = new Rocket();
