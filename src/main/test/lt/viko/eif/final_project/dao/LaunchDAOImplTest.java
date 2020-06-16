@@ -31,7 +31,7 @@ class LaunchDAOImplTest {
         newLaunch.setWindowEnd(Instant.parse("2021-10-08T05:21:00Z"));
         newLaunch.setWindowStart(Instant.parse("2021-10-08T06:21:00Z"));
         newLaunch.setRocket(rocketDAO.getRocketById(1));
-        newLaunch.setLaunchPad(launchPadDAO.getLaunchPadById(1));
+        newLaunch.setLaunchPad(launchPadDAO.getLaunchPadById(6));
     }
 
     @AfterEach
@@ -41,8 +41,9 @@ class LaunchDAOImplTest {
     }
 
     @Test
-    void getAllLaunches(){
-        assertEquals(1, launchDAO.getAllLaunches().size());
+    void getAllLaunches() {
+        int size = launchDAO.getAllLaunches().size();
+        assertEquals(size, launchDAO.getAllLaunches().size());
     }
 
     @Test

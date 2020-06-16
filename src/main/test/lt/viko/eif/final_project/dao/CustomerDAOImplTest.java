@@ -39,6 +39,15 @@ class CustomerDAOImplTest {
     }
 
     @Test
+    public void testGetCustomerByName() {
+        String customerName = "Elon Musk";
+        testCustomer.setName(customerName);
+        int id = customerDAO.addCustomer(testCustomer);
+        assertEquals(customerName, customerDAO.getCustomerByName(customerName).getName());
+        customerDAO.deleteCustomer(id);
+    }
+
+    @Test
     void addCustomer() {
         int id = 0;
 
@@ -65,5 +74,4 @@ class CustomerDAOImplTest {
         id = customerDAO.addCustomer(testCustomer);
         assertEquals(true, customerDAO.deleteCustomer(id));
     }
-
 }

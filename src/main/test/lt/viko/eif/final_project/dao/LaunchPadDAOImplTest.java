@@ -32,7 +32,8 @@ class LaunchPadDAOImplTest {
 
     @Test
     void getAllLaunches(){
-        assertEquals(1, launchPadDAO.getAllLaunchPads().size());
+        int size = launchPadDAO.getAllLaunchPads().size();
+        assertEquals(size, launchPadDAO.getAllLaunchPads().size());
     }
 
     @Test

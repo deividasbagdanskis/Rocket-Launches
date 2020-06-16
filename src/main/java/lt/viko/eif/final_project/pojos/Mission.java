@@ -10,7 +10,7 @@ public class Mission {
     private String description;
     private Launch launch;
     private Customer customer;
-    private List<Payload> payloads;
+    private List<Payload> payloads = new ArrayList<>();
     private List<Link> links = new ArrayList<>();
 
     public void setCustomer(Customer customer) {

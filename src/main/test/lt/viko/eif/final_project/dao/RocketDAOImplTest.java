@@ -39,7 +39,8 @@ class RocketDAOImplTest {
 
     @Test
     void getAllRockets(){
-        assertEquals(3, rocketDAO.getAllRockets().size());
+        int size = rocketDAO.getAllRockets().size();
+        assertEquals(size, rocketDAO.getAllRockets().size());
     }
 
     @Test
