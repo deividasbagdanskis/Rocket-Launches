@@ -9,11 +9,12 @@ import javax.ws.rs.core.UriInfo;
 import java.io.UnsupportedEncodingException;
 
 /**
- * @author Edvinas Jakštas
+ * The user of this interface has full control of CRUD operations with rocket object as a RESTful web service.
+ * @author Edvinas Jakstas
  */
 public interface RocketService {
     /**
-     * Gets all rockets in the repository.
+     * Gets all rockets in the database.
      * @param uriInfo information about URI
      * @return status code with response body
      */
@@ -24,9 +25,11 @@ public interface RocketService {
      * @param name name of a searchable mission
      * @param uriInfo information about URI
      * @return status code with response body
+     * @throws UnsupportedEncodingException when provided URL encoding is not supported
      */
     @Path("{name}")
-    Response getRocketsByName(@PathParam("name") String name, @Context UriInfo uriInfo) throws UnsupportedEncodingException;
+    Response getRocketsByName(@PathParam("name") String name, @Context UriInfo uriInfo)
+            throws UnsupportedEncodingException;
 
     /**
      * Adds a rocket to the database.
@@ -37,7 +40,8 @@ public interface RocketService {
     Response addRocket(Rocket rocket, @Context UriInfo uriInfo);
     /**
      * Updates a rocket with a matching name in the database.
-     * @param rocket rocket object with updated data, but with the same name
+     * @param id id of a rocket
+     * @param rocket rocket object with updated data, but with the same id
      * @param uriInfo information about URI
      * @return status code with response body
      */

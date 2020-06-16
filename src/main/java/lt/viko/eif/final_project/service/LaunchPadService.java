@@ -7,6 +7,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.io.UnsupportedEncodingException;
 
+/**
+ * The user of this interface has full control of CRUD operations with launch pad object as a RESTful web service.
+ */
 public interface LaunchPadService {
 
     /***
@@ -21,6 +24,7 @@ public interface LaunchPadService {
      * @param name name of a searchable launch pad
      * @param uriInfo uriInfo information about URI
      * @return status code with response body
+     * @throws UnsupportedEncodingException when provided URL encoding is not supported
      */
     @Path("{name}")
     Response getLaunchPadByName(@PathParam(value = "name") String name, @Context UriInfo uriInfo)
@@ -37,6 +41,7 @@ public interface LaunchPadService {
     /**
      * Deletes a specified launch pad from the database.
      * @param id id of a launch pad, which will be deleted
+     * @return status code
      */
     @Path("{id}")
     Response deleteLaunchPad(@PathParam("id") int id);

@@ -17,6 +17,8 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
+ * This class implements a RESTful web service, which allows the client to perform CRUD operations with a database
+ * through a launchPad DAO.&nbsp;This web service produces and consumes JSON documents.
  * @author Lukas Vanglikas
  */
 @Path("launchPads")
@@ -84,6 +86,12 @@ public class LaunchPadServiceImpl implements LaunchPadService {
         return Response.serverError().build();
     }
 
+    /***
+     * Creates a URI for getting data about a launch pad.
+     * @param uriInfo information about URI
+     * @param name name of a launch pad
+     * @return URI of a launch pad
+     */
     private String getUriForSelf(UriInfo uriInfo, String name) {
         URI uri = null;
         try {

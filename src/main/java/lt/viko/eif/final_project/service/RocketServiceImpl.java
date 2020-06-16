@@ -1,12 +1,10 @@
 package lt.viko.eif.final_project.service;
 
-
 import com.jcabi.aspects.Cacheable;
 import lt.viko.eif.final_project.apiClient.LaunchLibraryClient;
 import lt.viko.eif.final_project.apiClient.LaunchLibraryClientImpl;
 import lt.viko.eif.final_project.dao.RocketDAO;
 import lt.viko.eif.final_project.dao.RocketDAOImpl;
-import lt.viko.eif.final_project.pojos.Launch;
 import lt.viko.eif.final_project.pojos.Rocket;
 
 import javax.ws.rs.*;
@@ -14,13 +12,13 @@ import javax.ws.rs.core.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Edvinas Jakštas
+ * This class implements a RESTful web service, which allows the client to perform CRUD operations with a database
+ *  through a rocket DAO.&nbsp;This web service produces and consumes JSON documents.
+ * @author Edvinas Jakstas
  */
 @Path("rockets")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -30,7 +28,7 @@ public class RocketServiceImpl implements RocketService {
     private LaunchLibraryClient launchLibraryClient = new LaunchLibraryClientImpl();
 
     /**
-     * Gets all rockets in the repository
+     * Gets all rockets in the database.
      * @param uriInfo information about URI
      * @return status code with response ody
      */
@@ -103,8 +101,9 @@ public class RocketServiceImpl implements RocketService {
     }
 
     /**
-     *
-     * @param rocket rocket object with updated data, but with the same name
+     * Updates a rocket with a matching id in the database.
+     * @param id id of a rocket
+     * @param rocket rocket object with updated data, but with the same id
      * @param uriInfo information about URI
      * @return status code with response body
      */
@@ -121,7 +120,6 @@ public class RocketServiceImpl implements RocketService {
 
     /**
      * Deletes a specified rocket from the database.
-     *
      * @param id id of a rocket, which will be deleted
      * @return status code with response body
      */

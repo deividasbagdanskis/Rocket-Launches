@@ -166,7 +166,7 @@ public class LaunchPadDAOImpl implements  LaunchPadDAO {
      * Reads records from launchpad table.
      * @param result ResulSet of a query
      * @return launchpad object
-     * @throws SQLException
+     * @throws SQLException when reading rows
      */
     private LaunchPad readLaunchPad(ResultSet result) throws SQLException {
         LaunchPad launchPad = new LaunchPad();
