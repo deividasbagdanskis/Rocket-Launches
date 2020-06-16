@@ -41,7 +41,8 @@ public interface MissionService {
      * @param uriInfo information about URI
      * @return status code with response body
      */
-    Response updateMission(Mission mission, @Context UriInfo uriInfo);
+
+    Response updateMission(int id, Mission mission, @Context UriInfo uriInfo);
 
     /**
      * Deletes a specified mission from the database.
@@ -50,5 +51,5 @@ public interface MissionService {
      * @return status code with response body
      */
     @Path("{name}")
-    Response deleteMission(@PathParam("name") String name, @Context UriInfo uriInfo);
+    Response deleteMission(@PathParam("name") String name, @Context UriInfo uriInfo) throws UnsupportedEncodingException;
 }

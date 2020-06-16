@@ -105,7 +105,9 @@ public class MissionServiceImpl implements MissionService{
      */
     @PUT
     @Override
-    public Response updateMission(Mission mission, @Context UriInfo uriInfo) {
+    @Path("{id}")
+    public Response updateMission(@PathParam("id") int id, Mission mission, @Context UriInfo uriInfo) {
+        mission.setId(id);
         if(missionDao.updateMission(mission)) {
             mission.addLink(getUriForSelf(uriInfo, mission.getName()), "self");
             return Response.ok(mission).build();
@@ -122,8 +124,9 @@ public class MissionServiceImpl implements MissionService{
     @DELETE
     @Path("{name}")
     @Override
-    public Response deleteMission(@PathParam("name") String name, @Context UriInfo uriInfo) {
-        if(missionDao.deleteMission(name))
+    public Response deleteMission(@PathParam("name") String name, @Context UriInfo uriInfo)
+            throws UnsupportedEncodingException {
+        if(missionDao.deleteMission(URLDecoder.decode(name, "UTF-8")))
             return Response.noContent().build();
         return Response.serverError().build();
     }

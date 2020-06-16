@@ -165,6 +165,7 @@ public class MissionDAOImpl implements  MissionDAO {
                 payloadDAO.updatePayload(payload);
             }
             customerDAO.updateCustomer(mission.getCustomer());
+            launchDAO.updateLaunch(mission.getLaunch());
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
