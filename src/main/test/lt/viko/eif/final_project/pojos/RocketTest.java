@@ -4,8 +4,15 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.ws.rs.core.Link;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Tomas Jokubauskas
+ */
 class RocketTest {
 
     private Rocket rocket;
@@ -150,5 +157,51 @@ class RocketTest {
     void setPayloadToGTO() {
         rocket.setPayloadToGTO(1);
         assertEquals(1, rocket.getPayloadToGTO());
+    }
+
+    @Test
+    void getStages() {
+        List<Stage> stages = new ArrayList<>();
+        stages.add(new Stage());
+        rocket.setStages(stages);
+        assertEquals(1, rocket.getStages().size());
+    }
+
+    @Test
+    void setStages() {
+        List<Stage> stages = new ArrayList<>();
+        stages.add(new Stage());
+        rocket.setStages(stages);
+        assertEquals(1, rocket.getStages().size());
+    }
+
+    @Test
+    void getLinks() {
+        rocket.addLink("https://example.com", "rel");
+        assertEquals(1, rocket.getLinks().size());
+    }
+
+    @Test
+    void setLinks() {
+        rocket.addLink("https://example.com", "rel");
+        assertEquals(1, rocket.getLinks().size());
+    }
+
+    @Test
+    void getWikiURL() {
+        rocket.setWikiURL("https://example.com");
+        assertEquals("https://example.com", rocket.getWikiURL());
+    }
+
+    @Test
+    void setWikiURL() {
+        rocket.setWikiURL("https://example.com");
+        assertEquals("https://example.com", rocket.getWikiURL());
+    }
+
+    @Test
+    void addLink() {
+        rocket.addLink("https://example.com", "rel");
+        assertEquals(1, rocket.getLinks().size());
     }
 }
