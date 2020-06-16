@@ -291,7 +291,7 @@ public class LaunchDAOImpl implements LaunchDAO {
      * Reads records from launch table.
      * @param result ResultSet of a query
      * @return launch object
-     * @throws SQLException
+     * @throws SQLException when reading rows
      */
     private Launch readLaunch(ResultSet result) throws SQLException {
         Launch launch = new Launch();

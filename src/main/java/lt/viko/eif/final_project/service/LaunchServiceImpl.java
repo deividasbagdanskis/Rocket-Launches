@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * This class implements a RESTful web service, which allows the client to perform CRUD operations with a database
+ * through a launch DAO.&nbsp;This web service produces and consumes JSON documents.
  * @author Deividas Bagdanskis
  */
 @Path("launches")

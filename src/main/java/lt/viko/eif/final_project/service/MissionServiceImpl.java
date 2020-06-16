@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * This class implements a RESTful web service, which allows the client to perform CRUD operations with a database
+ * through a mission DAO.&nbsp;This web service produces and consumes JSON documents.
  * @author Tomas Jokubauskas
  */
 @Path("missions")
@@ -98,8 +100,9 @@ public class MissionServiceImpl implements MissionService{
     }
 
     /**
-     * Updates a mission with a matching name in the database.
-     * @param mission mission object with updated data, but with the same name
+     * Updates a mission with a matching id in the database.
+     * @param id id of a mission
+     * @param mission mission object with updated data, but with the same id
      * @param uriInfo information about URI
      * @return status code with response body
      */

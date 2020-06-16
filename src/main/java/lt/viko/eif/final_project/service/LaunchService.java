@@ -28,6 +28,7 @@ public interface LaunchService {
      * @param name name of a searchable launches
      * @param uriInfo uriInfo information about URI
      * @return status code with response body
+     * @throws UnsupportedEncodingException when provided URL encoding is not supported
      */
     @Path("{name}")
     Response getLaunchesByName(@PathParam(value = "name") String name, @Context UriInfo uriInfo)
@@ -63,7 +64,7 @@ public interface LaunchService {
 
     /**
      * Updates a launch in the database.
-     * @param id id of a rocket
+     * @param id id of a launch
      * @param launch launch object with updated data, but with the same id
      * @param uriInfo uriInfo uriInfo information about URI
      * @return status code with response body
@@ -73,6 +74,7 @@ public interface LaunchService {
     /**
      * Deletes a specified launch from the database.
      * @param id id of a launch, which will be deleted
+     * @return status code
      */
     Response deleteLaunch(int id);
 }

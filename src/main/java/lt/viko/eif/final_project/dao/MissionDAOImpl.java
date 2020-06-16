@@ -198,7 +198,7 @@ public class MissionDAOImpl implements  MissionDAO {
      * Reads records from mission table.
      * @param result ResultSet of a query
      * @return mission object
-     * @throws SQLException
+     * @throws SQLException when reading rows
      */
     private Mission readMission(ResultSet result) throws SQLException {
         Mission mission = new Mission();

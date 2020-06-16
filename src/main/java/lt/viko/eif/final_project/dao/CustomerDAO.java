@@ -14,6 +14,12 @@ public interface CustomerDAO {
      */
     Customer getCustomerById(int id);
 
+    /**
+     * Gets a customer  with particular id from the database.
+     * @param name name of a searchable customer
+     * @return launch pad object - if a customer was found<br>
+     *         null - if a customer was not found
+     */
     Customer getCustomerByName(String name);
 
     /**
