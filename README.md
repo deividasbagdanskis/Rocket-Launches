@@ -39,7 +39,7 @@ Pull requests are welcome.
 * [Lukas Vanglikas](https://github.com/Lukrecijuss)
 * [Kornelijus Čepas](https://github.com/KornelijusCep)
 * [Edvinas Jakštas](https://github.com/kepazz)
-* [Tomas Jokūbauskas](https://github.com/TeeJay007)
+* [](https://github.com/)
 
 ## License
 
